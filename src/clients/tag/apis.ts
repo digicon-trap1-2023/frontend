@@ -1,6 +1,6 @@
 import useSWRV from 'swrv'
 import { fetcher } from '@/clients/fetcher'
-import type { TagCreateSeed, Tag } from '@/clients/tag/type'
+import type { TagCreateSeed, Tag } from '@/clients/tag/types'
 
 export const useFetchTags = () => {
   const { data, error } = useSWRV<Tag[]>('/tags', fetcher.get)

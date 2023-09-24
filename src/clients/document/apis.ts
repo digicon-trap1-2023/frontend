@@ -6,7 +6,7 @@ import type {
   DocumentCreateSeed,
   DocumentUpdateSeed,
   DocumentQuerySeed
-} from '@/clients/document/type'
+} from '@/clients/document/types'
 
 export const useFetchDocuments = (query?: DocumentQuerySeed) => {
   const searchParams = new URLSearchParams()
