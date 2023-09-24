@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-// NOTE: ElSelectV2使うかも？
 import { ElFormItem, ElInput, ElSelect, ElOption } from 'element-plus'
 import type { Form } from '@/views/NewDocumentView.vue'
 
