@@ -39,7 +39,7 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <div :class="$style.container">
+  <div>
     <h1>新規資料投稿</h1>
     <p :class="$style.description">説明文とか注意事項とか書くところ</p>
     <el-form :model="form" label-position="top" :class="$style.form">
@@ -59,10 +59,6 @@ const handleSubmit = () => {
 </template>
 
 <style module>
-.container {
-  width: 60%;
-  margin: 0 auto;
-}
 .description {
   margin-bottom: 2rem;
 }
