@@ -36,4 +36,4 @@ jobs:
           node-version: latest
           cache: npm
       - run: npm install
-      - run: npm run build
+      - run: npm run build-only
