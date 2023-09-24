@@ -45,7 +45,21 @@ export const createDocument = async (document: DocumentCreateSeed) => {
 }
 
 export const updateDocument = async (documentId: string, document: DocumentUpdateSeed) => {
-  const res = await fetcher.patch<Document>(`/documents/${documentId}`, document)
+  const formData = new FormData()
+  if (document.title) {
+    formData.append('title', document.title)
+  }
+  if (document.description) {
+    formData.append('description', document.description)
+  }
+  if (document.tags) {
+    formData.append('tags', document.tags.join(','))
+  }
+  if (document.file) {
+    formData.append('file', document.file)
+  }
+
+  const res = await fetcher.patchFormData<Document>(`/documents/${documentId}`, formData)
 
   return res
 }
