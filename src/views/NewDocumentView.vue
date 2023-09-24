@@ -1,57 +1,38 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-// NOTE: ElSelectV2使うかも？
 import { ElForm, ElButton } from 'element-plus'
 
 import FileUploader from '@/components/NewDocument/FileUploader.vue'
 import DocumentInfoForm from '@/components/NewDocument/DocumentInfoForm.vue'
+import { createTags, useFetchTags } from '@/clients/tag/apis'
+import { createDocument } from '@/clients/document/apis'
 
-export interface Form {
-  title: string
-  description: string
-  tags: string[]
-  file: File | null
-}
+import type { DocumentCreateSeed } from '@/clients/document/types'
 
-const form = ref<Form>({
+const form = ref<DocumentCreateSeed>({
   title: '',
   description: '',
   tags: [],
   file: null
 })
 
-const tags = [
-  {
-    label: '東工大',
-    value: '1'
-  },
-  {
-    label: '柱',
-    value: '2'
-  },
-  {
-    label: 'ジブリにありそう',
-    value: '3'
+const tags = useFetchTags()
+
+const handleSubmit = async () => {
+  if (!form.value.file || !form.value.description || !form.value.title || !tags.value) return
+
+  const newTags = form.value.tags.filter((tag) => !tags.value!.some((t) => t.id === tag))
+  const existingTags = form.value.tags.filter((tag) => tags.value!.some((t) => t.id === tag))
+  const createdTags = await createTags(newTags)
+  existingTags.push(...createdTags.map((tag) => tag.id))
+
+  const documentCreateSeed: DocumentCreateSeed = {
+    title: form.value.title,
+    description: form.value.description,
+    tags: existingTags,
+    file: form.value.file
   }
-]
-
-const handleSubmit = () => {
-  if (!form.value.file || !form.value.description || !form.value.title) return
-
-  //TODO: 新規作成のタグは新規作成する
-  // const newTags = form.value.tags.filter((tag) => !tags.some((t) => t.value === tag))
-  // const existingTags = form.value.tags.filter((tag) => tags.some((t) => t.value === tag))
-
-  const formData = new FormData()
-  formData.append('title', form.value.title)
-  formData.append('description', form.value.description)
-  formData.append('tags', form.value.tags.join(','))
-  formData.append('file', form.value.file)
-
-  for (const pair of formData.entries()) {
-    console.log(`${pair[0]}: ${pair[1]}`)
-  }
-  //TODO: 送信処理
+  await createDocument(documentCreateSeed)
 }
 </script>
 
@@ -59,7 +40,7 @@ const handleSubmit = () => {
   <div>
     <h1>新規資料投稿</h1>
     <p :class="$style.description">新規資料を投稿します。</p>
-    <el-form :model="form" label-position="top" :class="$style.form">
+    <el-form :model="form" label-position="top" :class="$style.form" v-if="tags">
       <div :class="$style.formFields">
         <file-uploader
           :class="$style.formLeftContainer"

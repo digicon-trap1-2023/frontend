@@ -21,22 +21,24 @@ export const useFetchDocuments = (query?: DocumentQuerySeed) => {
   const { data, error } = useSWRV<Document[]>(`${getApiOrigin()}/documents`, () =>
     fetcher.getWithQuery(`${getApiOrigin()}/documents`, searchParams)
   )
-  if (error) throw new Error(error.value.message)
+  if (error.value) throw new Error(error.value.message)
 
   return data
 }
 
 export const useFetchDocumentDetail = (documentId: string) => {
   const { data, error } = useSWRV<DocumentDetail>(
-    `${getApiOrigin()}/document/${documentId}`,
+    `${getApiOrigin()}/documents/${documentId}`,
     fetcher.get
   )
-  if (error) throw new Error(error.value.message)
+  if (error.value) throw new Error(error.value.message)
 
   return data
 }
 
 export const createDocument = async (document: DocumentCreateSeed) => {
+  if (!document.file) throw new Error('file is required')
+
   const formData = new FormData()
   formData.append('title', document.title)
   formData.append('description', document.description)

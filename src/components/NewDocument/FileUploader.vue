@@ -4,16 +4,16 @@ import { ElUpload, ElIcon, ElButton } from 'element-plus'
 import type { UploadUserFile, UploadFile } from 'element-plus'
 
 import { UploadFilled, Delete } from '@element-plus/icons-vue'
-import type { Form } from '@/views/NewDocumentView.vue'
+import type { DocumentCreateSeed } from '@/clients/document/types'
 
 interface Props {
-  file: Form['file']
+  file: DocumentCreateSeed['file']
 }
 
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  (e: 'changeFile', file: Form['file']): void
+  (e: 'changeFile', file: DocumentCreateSeed['file']): void
 }>()
 
 const fileList = ref<UploadUserFile[]>(props.file !== null ? [props.file] : [])

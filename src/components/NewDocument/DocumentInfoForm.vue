@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ElFormItem, ElInput, ElSelect, ElOption } from 'element-plus'
-import type { Form } from '@/views/NewDocumentView.vue'
+import type { Tag } from '@/clients/tag/types'
+import type { DocumentCreateSeed } from '@/clients/document/types'
 
 interface Props {
-  modelValue: Form
-  tags: { label: string; value: string }[]
+  modelValue: DocumentCreateSeed
+  tags: Tag[]
 }
 
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', form: Form): void
+  (e: 'update:modelValue', form: DocumentCreateSeed): void
 }>()
 
 const titleVModel = computed({
@@ -73,7 +74,7 @@ const tagsVModel = computed({
         :class="$style.tagSelect"
         size="large"
       >
-        <el-option v-for="tag in tags" :key="tag.value" :label="tag.label" :value="tag.value" />
+        <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id" />
       </el-select>
     </el-form-item>
   </div>
