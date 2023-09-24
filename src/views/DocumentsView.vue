@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DocumentCard from '@/components/Documents/DocumentCard.vue'
+import TagSelector from '@/components/Documents/TagSelector.vue'
 
 const documents = [
   {
@@ -47,6 +48,7 @@ const documents = [
 </script>
 
 <template>
+  <tag-selector @change="(e) => console.log(e)" />
   <div v-masonry="1" transition-duration="0.3s" item-selector=".item" column-width="450">
     <div
       v-masonry-tile
