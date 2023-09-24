@@ -20,10 +20,27 @@ const form = ref<Form>({
   file: null
 })
 
+const tags = [
+  {
+    label: '東工大',
+    value: '1'
+  },
+  {
+    label: '柱',
+    value: '2'
+  },
+  {
+    label: 'ジブリにありそう',
+    value: '3'
+  }
+]
+
 const handleSubmit = () => {
   if (!form.value.file || !form.value.description || !form.value.title) return
 
   //TODO: 新規作成のタグは新規作成する
+  // const newTags = form.value.tags.filter((tag) => !tags.some((t) => t.value === tag))
+  // const existingTags = form.value.tags.filter((tag) => tags.some((t) => t.value === tag))
 
   const formData = new FormData()
   formData.append('title', form.value.title)
@@ -41,7 +58,7 @@ const handleSubmit = () => {
 <template>
   <div>
     <h1>新規資料投稿</h1>
-    <p :class="$style.description">説明文とか注意事項とか書くところ</p>
+    <p :class="$style.description">新規資料を投稿します。</p>
     <el-form :model="form" label-position="top" :class="$style.form">
       <div :class="$style.formFields">
         <file-uploader
@@ -49,7 +66,7 @@ const handleSubmit = () => {
           :file="form.file"
           @change-file="form.file = $event"
         />
-        <document-info-form :class="$style.formRightContainer" v-model="form" />
+        <document-info-form :class="$style.formRightContainer" v-model="form" :tags="tags" />
       </div>
       <div :class="$style.formSubmitButonContainer">
         <el-button type="primary" @click="handleSubmit">投稿する</el-button>
@@ -68,6 +85,7 @@ const handleSubmit = () => {
 .formFields {
   display: flex;
   gap: 2rem;
+  height: 360px;
 }
 .formLeftContainer {
   display: flex;
@@ -75,14 +93,11 @@ const handleSubmit = () => {
   justify-content: center;
   flex-grow: 2;
 }
-.formLeftContainer > {
-  width: 100%;
-}
 .imageContainer {
   position: relative;
 }
 .formRightContainer {
-  flex-grow: 3;
+  width: 540px;
 }
 .tagSelect {
   width: 100%;

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { ElUpload, ElIcon, ElButton } from 'element-plus'
 import type { UploadUserFile, UploadFile } from 'element-plus'
 
-import { UploadFilled } from '@element-plus/icons-vue'
+import { UploadFilled, Delete } from '@element-plus/icons-vue'
 import type { Form } from '@/views/NewDocumentView.vue'
 
 interface Props {
@@ -33,7 +33,7 @@ const handleRemoveImage = () => {
 </script>
 
 <template>
-  <div :class="$style.container">
+  <div>
     <el-upload
       v-if="imageUrl === undefined"
       drag
@@ -49,10 +49,14 @@ const handleRemoveImage = () => {
       <div class="el-upload__text">ドラッグアンドドロップでアップロード</div>
     </el-upload>
     <div v-else :class="$style.imageContainer">
-      <img :src="imageUrl" alt="" width="300" height="300" />
+      <img :src="imageUrl" alt="" width="300" height="300" :class="$style.image" />
     </div>
     <div :class="$style.removeImageButtonContainer" v-if="imageUrl !== undefined">
-      <el-button @click="handleRemoveImage">削除</el-button>
+      <el-button @click="handleRemoveImage" type="danger">
+        <el-icon class="el-icon--delete">
+          <delete />
+        </el-icon>
+      </el-button>
     </div>
   </div>
 </template>
@@ -60,6 +64,9 @@ const handleRemoveImage = () => {
 <style module>
 .imageContainer {
   text-align: center;
+}
+.image {
+  object-fit: contain;
 }
 .removeImageButtonContainer {
   margin-top: 1rem;

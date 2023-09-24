@@ -6,6 +6,7 @@ import type { Form } from '@/views/NewDocumentView.vue'
 
 interface Props {
   modelValue: Form
+  tags: { label: string; value: string }[]
 }
 
 const props = defineProps<Props>()
@@ -13,21 +14,6 @@ const props = defineProps<Props>()
 const emit = defineEmits<{
   (e: 'update:modelValue', form: Form): void
 }>()
-
-const tags = [
-  {
-    label: '東工大',
-    value: '1'
-  },
-  {
-    label: '柱',
-    value: '2'
-  },
-  {
-    label: 'ジブリにありそう',
-    value: '3'
-  }
-]
 
 const titleVModel = computed({
   get: () => props.modelValue.title,
@@ -73,6 +59,7 @@ const tagsVModel = computed({
         type="textarea"
         :rows="4"
         placeholder="説明文を入力"
+        :autosize="{ minRows: 4 }"
       />
     </el-form-item>
     <el-form-item label="タグ">
