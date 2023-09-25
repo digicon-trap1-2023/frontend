@@ -16,8 +16,10 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const { data, error, isValidating } = useSWRV<Document[]>(
     () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.bookmarked],
     (origin, tags, bookmarked) => {
-      if (tags) {
+      if (tags && tags.length > 0) {
         searchParams.value.set('tags', tags.join(','))
+      } else {
+        searchParams.value.delete('tags')
       }
       if (bookmarked) {
         searchParams.value.set('type', 'bookmarks')
