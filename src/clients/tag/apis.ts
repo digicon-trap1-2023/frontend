@@ -5,7 +5,7 @@ import { getApiOrigin } from '@/lib/env'
 
 export const useFetchTags = () => {
   const { data, error } = useSWRV<Tag[]>(`${getApiOrigin()}/tags`, fetcher.get)
-  if (error) throw new Error(error.value.message)
+  if (error.value) throw new Error(error.value)
 
   return data
 }

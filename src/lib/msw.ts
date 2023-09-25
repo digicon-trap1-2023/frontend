@@ -9,6 +9,13 @@ const handlers = (apiOrigin: string) => [documentHandlers(apiOrigin), tagHandler
 export const initMock = () => {
   if (import.meta.env.MODE === 'development') {
     const worker = setupWorker(...handlers(getApiOrigin()))
-    worker.start()
+    worker.start({
+      onUnhandledRequest(req, print) {
+        if (req.url.pathname.startsWith('/node_modules') || req.url.pathname.startsWith('/src')) {
+          return
+        }
+        print.warning()
+      }
+    })
   }
 }
