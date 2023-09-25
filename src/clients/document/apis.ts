@@ -8,8 +8,13 @@ import type {
   DocumentQuerySeed
 } from '@/clients/document/types'
 import { getApiOrigin } from '@/lib/env'
+import { useRoleStore } from '@/stores/role'
+import { storeToRefs } from 'pinia'
 
 export const useFetchDocuments = (query?: DocumentQuerySeed) => {
+  const roleStore = useRoleStore()
+  const { role } = storeToRefs(roleStore)
+
   const searchParams = new URLSearchParams()
   if (query?.tags) {
     searchParams.set('tags', query.tags.join(','))
@@ -19,7 +24,7 @@ export const useFetchDocuments = (query?: DocumentQuerySeed) => {
   }
 
   const { data, error } = useSWRV<Document[]>(`${getApiOrigin()}/documents`, () =>
-    fetcher.getWithQuery(`${getApiOrigin()}/documents`, searchParams)
+    fetcher.getWithQuery(`${getApiOrigin()}/documents`, searchParams, role.value)
   )
   if (error.value) throw new Error(error.value.message)
 
