@@ -7,9 +7,10 @@ const props = defineProps<{
   imgSrc: string
   username: string
   title: string
+  isBookmarked: boolean
 }>()
 
-const isStard = ref(false)
+const isBookmarked = ref(props.isBookmarked)
 const isHoverd = ref(false)
 
 const mouseEnter = () => (isHoverd.value = true)
@@ -33,12 +34,12 @@ const mouseLeave = () => (isHoverd.value = false)
     <el-button
       circle
       :class="$style.starButton"
-      @click="() => (isStard = !isStard)"
-      :is-stard="isStard"
+      @click="() => (isBookmarked = !isBookmarked)"
+      :is-stard="isBookmarked"
     >
       <template #icon>
         <ElIcon :size="30">
-          <star-filled v-if="isStard" />
+          <star-filled v-if="isBookmarked" />
           <star v-else />
         </ElIcon>
       </template>
@@ -56,6 +57,7 @@ const mouseLeave = () => (isHoverd.value = false)
 .image {
   width: 100%;
   display: block;
+  /* aspect-ratio: 1; */
 }
 
 .description {

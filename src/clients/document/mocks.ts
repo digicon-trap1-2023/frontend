@@ -3,15 +3,35 @@ import type { Document } from './types'
 
 const documentData: Document = {
   id: '1',
-  file: 'https://example.com',
+  file: 'https://placehold.jp/150x150.png',
   title: 'example document',
   bookmarked: false,
-  referenced: false
+  referenced: false,
+  userId: '1',
+  userName: 'digi-con食べ食べ委員会'
 }
+const table1 = [100, 600, 350, 200, 800, 450, 1050, 400]
+const table2 = [400, 300, 150, 850, 500]
+const documentsData: Document[] = Array(40)
+  .fill(0)
+  .map((_, i) => ({
+    id: `${i}`,
+    file: `https://placehold.jp/${table1[i % 8]}x${table2[i % 5]}.png`,
+    title: `${table1[i % 8]}x${table2[i % 5]}`,
+    bookmarked: i % 7 === 0,
+    referenced: 1 % 5 === 0,
+    userId: `${i}`,
+    userName: `digi-con食べ食べ委員会 v${i}`
+  }))
 export const documentHandlers = (apiOrigin: string): RestHandler[] => [
-  rest.get(`${apiOrigin}/documents`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json<Document[]>([documentData]))
-  ),
+  rest.get(`${apiOrigin}/documents`, (req, res, ctx) => {
+    console.log(req.params.tags)
+    if (req.params.tags?.length) {
+      return res(ctx.status(200), ctx.json<Document[]>(documentsData))
+    }
+
+    return res(ctx.status(200), ctx.json<Document[]>(documentsData))
+  }),
   rest.get(`${apiOrigin}/documents/:id`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json<Document>(documentData))
   ),

@@ -6,6 +6,8 @@ export interface Document {
   title: string
   bookmarked: boolean
   referenced: boolean
+  userId: string
+  userName: string
 }
 
 export interface DocumentDetail extends Document {

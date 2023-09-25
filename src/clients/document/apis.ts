@@ -11,14 +11,14 @@ import { getApiOrigin } from '@/lib/env'
 
 export const useFetchDocuments = (query?: DocumentQuerySeed) => {
   const searchParams = new URLSearchParams()
+  console.log(query)
   if (query?.tags) {
     searchParams.set('tags', query.tags.join(','))
   }
   if (query?.bookmarked) {
     searchParams.set('type', 'bookmarks')
   }
-
-  const { data, error } = useSWRV<Document[]>(`${getApiOrigin()}/documents`, () =>
+  const { data, error } = useSWRV<Document[]>([`${getApiOrigin()}/documents`, searchParams], () =>
     fetcher.getWithQuery(`${getApiOrigin()}/documents`, searchParams)
   )
   if (error.value) throw new Error(error.value.message)
