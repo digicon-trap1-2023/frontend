@@ -3,8 +3,10 @@ import { setupWorker } from 'msw'
 import { getApiOrigin } from './env'
 import { documentHandlers } from '@/clients/document/mocks'
 import { tagHandlers } from '@/clients/tag/mocks'
+import { requestHandlers } from '@/clients/request/mocks'
 
-const handlers = (apiOrigin: string) => [documentHandlers(apiOrigin), tagHandlers(apiOrigin)].flat()
+const handlers = (apiOrigin: string) =>
+  [documentHandlers(apiOrigin), tagHandlers(apiOrigin), requestHandlers(apiOrigin)].flat()
 
 export const initMock = () => {
   if (import.meta.env.MODE === 'development') {

@@ -1,4 +1,4 @@
-import type { Tag } from 'element-plus'
+import type { Tag } from '@/clients/tag/types'
 
 export interface Document {
   id: string
@@ -8,6 +8,7 @@ export interface Document {
   referenced: boolean
   userId: string
   userName: string
+  related_request: string | null
 }
 
 export interface DocumentDetail extends Document {
@@ -25,6 +26,7 @@ export interface DocumentCreateSeed {
   title: string
   description: string
   tags: string[]
+  related_request: string | null
 }
 
-export type DocumentUpdateSeed = Partial<DocumentCreateSeed>
+export type DocumentUpdateSeed = Partial<Omit<DocumentCreateSeed, 'related_request'>>

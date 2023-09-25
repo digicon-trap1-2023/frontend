@@ -8,10 +8,14 @@ import type {
   DocumentQuerySeed
 } from '@/clients/document/types'
 import { getApiOrigin } from '@/lib/env'
+import { useRoleStore } from '@/stores/role'
+import { storeToRefs } from 'pinia'
 import { type Ref, ref } from 'vue'
 
 export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const searchParams = ref(new URLSearchParams())
+  const roleStore = useRoleStore()
+  const { role } = storeToRefs(roleStore)
 
   const { data, error, isValidating } = useSWRV<Document[]>(
     () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.bookmarked],
@@ -24,7 +28,7 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
       if (bookmarked) {
         searchParams.value.set('type', 'bookmarks')
       }
-      return fetcher.getWithQuery(origin, searchParams.value)
+      return fetcher.getWithQuery(origin, searchParams.value, role.value)
     }
   )
   if (error.value) throw new Error(error.value.message)
@@ -50,6 +54,9 @@ export const createDocument = async (document: DocumentCreateSeed) => {
   formData.append('description', document.description)
   formData.append('tags', document.tags.join(','))
   formData.append('file', document.file)
+  if (document.related_request) {
+    formData.append('related_request', document.related_request)
+  }
 
   const res = await fetcher.postFormData<Document>(`${getApiOrigin()}/documents`, formData)
 
@@ -92,9 +99,9 @@ export const deleteBookmark = async (documentId: string) => {
 }
 
 export const postReferenced = async (documentId: string) => {
-  await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/referenced`)
+  await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/reference`)
 }
 
 export const deleteReferenced = async (documentId: string) => {
-  await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/referenced`)
+  await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/reference`)
 }
