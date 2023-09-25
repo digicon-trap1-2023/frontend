@@ -1,4 +1,4 @@
-import type { Tag } from 'element-plus'
+import type { Tag } from '@/clients/tag/types'
 
 export interface Document {
   id: string
