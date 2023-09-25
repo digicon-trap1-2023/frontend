@@ -25,9 +25,15 @@ const documentsData: Document[] = Array(40)
   }))
 export const documentHandlers = (apiOrigin: string): RestHandler[] => [
   rest.get(`${apiOrigin}/documents`, (req, res, ctx) => {
-    console.log(req.params.tags)
-    if (req.params.tags?.length) {
-      return res(ctx.status(200), ctx.json<Document[]>(documentsData))
+    const list = req.url.searchParams
+      .get('tags')
+      ?.split(',')
+      .map((v) => v.slice(-1))
+    if (list) {
+      return res(
+        ctx.status(200),
+        ctx.json<Document[]>(documentsData.filter((v) => list.some((w) => w === v.id.slice(-1))))
+      )
     }
 
     return res(ctx.status(200), ctx.json<Document[]>(documentsData))

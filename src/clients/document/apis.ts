@@ -13,7 +13,7 @@ import { type Ref, ref } from 'vue'
 export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const searchParams = ref(new URLSearchParams())
 
-  const { data, error, mutate } = useSWRV<Document[]>(
+  const { data, error, isValidating } = useSWRV<Document[]>(
     () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.bookmarked],
     (origin, tags, bookmarked) => {
       if (tags) {
@@ -27,7 +27,7 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   )
   if (error.value) throw new Error(error.value.message)
 
-  return { data, mutate }
+  return { data, isValidating }
 }
 
 export const useFetchDocumentDetail = (documentId: string) => {
