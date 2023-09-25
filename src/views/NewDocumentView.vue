@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import { ElForm, ElButton } from 'element-plus'
 
-import FileUploader from '@/components/NewDocument/FileUploader.vue'
-import DocumentInfoForm from '@/components/NewDocument/DocumentInfoForm.vue'
+import FileUploader from '@/components/newDocument/FileUploader.vue'
+import DocumentInfoForm from '@/components/newDocument/DocumentInfoForm.vue'
 import { createTags, useFetchTags } from '@/clients/tag/apis'
 import { createDocument } from '@/clients/document/apis'
 
