@@ -2,10 +2,10 @@
 import { useFetchDocuments } from '@/clients/document/apis'
 import DocumentCard from '@/components/Documents/DocumentCard.vue'
 import TagSelector from '@/components/Documents/TagSelector.vue'
-import { ref } from 'vue'
+import { ref, toRef } from 'vue'
 
 const tags = ref<string[]>()
-const documents = useFetchDocuments({ tags: tags.value })
+const { data: documents } = useFetchDocuments(toRef({ tags }))
 </script>
 
 <template>

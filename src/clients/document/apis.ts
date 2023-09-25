@@ -8,22 +8,26 @@ import type {
   DocumentQuerySeed
 } from '@/clients/document/types'
 import { getApiOrigin } from '@/lib/env'
+import { type Ref, ref } from 'vue'
 
-export const useFetchDocuments = (query?: DocumentQuerySeed) => {
-  const searchParams = new URLSearchParams()
-  console.log(query)
-  if (query?.tags) {
-    searchParams.set('tags', query.tags.join(','))
-  }
-  if (query?.bookmarked) {
-    searchParams.set('type', 'bookmarks')
-  }
-  const { data, error } = useSWRV<Document[]>([`${getApiOrigin()}/documents`, searchParams], () =>
-    fetcher.getWithQuery(`${getApiOrigin()}/documents`, searchParams)
+export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
+  const searchParams = ref(new URLSearchParams())
+
+  const { data, error, mutate } = useSWRV<Document[]>(
+    () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.bookmarked],
+    (origin, tags, bookmarked) => {
+      if (tags) {
+        searchParams.value.set('tags', tags.join(','))
+      }
+      if (bookmarked) {
+        searchParams.value.set('type', 'bookmarks')
+      }
+      return fetcher.getWithQuery(origin, searchParams.value)
+    }
   )
   if (error.value) throw new Error(error.value.message)
 
-  return data
+  return { data, mutate }
 }
 
 export const useFetchDocumentDetail = (documentId: string) => {
