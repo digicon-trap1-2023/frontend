@@ -49,6 +49,9 @@ export const createDocument = async (document: DocumentCreateSeed) => {
   formData.append('description', document.description)
   formData.append('tags', document.tags.join(','))
   formData.append('file', document.file)
+  if (document.related_request) {
+    formData.append('related_request', document.related_request)
+  }
 
   const res = await fetcher.postFormData<Document>(`${getApiOrigin()}/documents`, formData)
 

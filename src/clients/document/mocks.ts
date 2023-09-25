@@ -6,7 +6,8 @@ const documentData: Document = {
   file: 'https://example.com',
   title: 'example document',
   bookmarked: false,
-  referenced: false
+  referenced: false,
+  related_request: null
 }
 
 const documentDetailData: DocumentDetail = {

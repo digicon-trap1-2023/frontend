@@ -24,11 +24,17 @@ const handleDeleteRequest = async (requestId: string) => {
       <div :class="$style.cardContainer">
         <div :class="$style.header">
           <span :class="$style.username">{{ request.created_by }}</span>
-          <el-button class="button" type="danger" @click="handleDeleteRequest(request.id)">
-            <el-icon class="el-icon--delete">
-              <delete />
-            </el-icon>
-          </el-button>
+          <div>
+            <!--TODO: 権限で場合分け-->
+            <el-button type="danger" @click="handleDeleteRequest(request.id)">
+              <el-icon class="el-icon--delete">
+                <delete />
+              </el-icon>
+            </el-button>
+            <router-link :to="`/documents/new?requestId=${request.id}`">
+              <el-button type="primary">この要望に対して資料を追加する</el-button>
+            </router-link>
+          </div>
         </div>
         <el-card>
           <template #header>
@@ -72,5 +78,7 @@ const handleDeleteRequest = async (requestId: string) => {
 }
 .description {
   white-space: pre-wrap;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 </style>
