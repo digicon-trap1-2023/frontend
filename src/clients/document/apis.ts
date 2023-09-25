@@ -6,7 +6,8 @@ import type {
   DocumentCreateSeed,
   DocumentUpdateSeed,
   DocumentQuerySeed
-} from '@/clients/document/type'
+} from '@/clients/document/types'
+import { getApiOrigin } from '@/lib/env'
 
 export const useFetchDocuments = (query?: DocumentQuerySeed) => {
   const searchParams = new URLSearchParams()
@@ -17,29 +18,34 @@ export const useFetchDocuments = (query?: DocumentQuerySeed) => {
     searchParams.set('type', 'bookmarks')
   }
 
-  const { data, error } = useSWRV<Document[]>('/documents', () =>
-    fetcher.getWithQuery('/documents', searchParams)
+  const { data, error } = useSWRV<Document[]>(`${getApiOrigin()}/documents`, () =>
+    fetcher.getWithQuery(`${getApiOrigin()}/documents`, searchParams)
   )
-  if (error) throw new Error(error.value.message)
+  if (error.value) throw new Error(error.value.message)
 
   return data
 }
 
 export const useFetchDocumentDetail = (documentId: string) => {
-  const { data, error } = useSWRV<DocumentDetail>(`/document/${documentId}`, fetcher.get)
-  if (error) throw new Error(error.value.message)
+  const { data, error } = useSWRV<DocumentDetail>(
+    `${getApiOrigin()}/documents/${documentId}`,
+    fetcher.get
+  )
+  if (error.value) throw new Error(error.value.message)
 
   return data
 }
 
 export const createDocument = async (document: DocumentCreateSeed) => {
+  if (!document.file) throw new Error('file is required')
+
   const formData = new FormData()
   formData.append('title', document.title)
   formData.append('description', document.description)
   formData.append('tags', document.tags.join(','))
   formData.append('file', document.file)
 
-  const res = await fetcher.postFormData<Document>('/documents', formData)
+  const res = await fetcher.postFormData<Document>(`${getApiOrigin()}/documents`, formData)
 
   return res
 }
@@ -59,27 +65,30 @@ export const updateDocument = async (documentId: string, document: DocumentUpdat
     formData.append('file', document.file)
   }
 
-  const res = await fetcher.patchFormData<Document>(`/documents/${documentId}`, formData)
+  const res = await fetcher.patchFormData<Document>(
+    `${getApiOrigin()}/documents/${documentId}`,
+    formData
+  )
 
   return res
 }
 
 export const deleteDocument = async (documentId: string) => {
-  await fetcher.delete(`/documents/${documentId}`)
+  await fetcher.delete(`${getApiOrigin()}/documents/${documentId}`)
 }
 
 export const postBookmark = async (documentId: string) => {
-  await fetcher.postWithoutData(`/documents/${documentId}/bookmarks`)
+  await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/bookmarks`)
 }
 
 export const deleteBookmark = async (documentId: string) => {
-  await fetcher.delete(`/documents/${documentId}/bookmarks`)
+  await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/bookmarks`)
 }
 
 export const postReferenced = async (documentId: string) => {
-  await fetcher.postWithoutData(`/documents/${documentId}/referenced`)
+  await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/referenced`)
 }
 
 export const deleteReferenced = async (documentId: string) => {
-  await fetcher.delete(`/documents/${documentId}/referenced`)
+  await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/referenced`)
 }

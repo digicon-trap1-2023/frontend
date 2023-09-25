@@ -19,7 +19,7 @@ export interface DocumentQuerySeed {
 }
 
 export interface DocumentCreateSeed {
-  file: File
+  file: File | null
   title: string
   description: string
   tags: string[]
