@@ -8,6 +8,11 @@ import { createTags, useFetchTags } from '@/clients/tag/apis'
 import { createDocument } from '@/clients/document/apis'
 
 import type { DocumentCreateSeed } from '@/clients/document/types'
+import { useRoleStore } from '@/stores/role'
+import { storeToRefs } from 'pinia'
+
+const roleStore = useRoleStore()
+const { role } = storeToRefs(roleStore)
 
 const form = ref<DocumentCreateSeed>({
   title: '',
@@ -37,7 +42,8 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div>
+  <div v-if="role === 'writer'">権限がありません。</div>
+  <div v-else>
     <h1>新規資料投稿</h1>
     <p :class="$style.description">新規資料を投稿します。</p>
     <el-form :model="form" label-position="top" :class="$style.form" v-if="tags">
