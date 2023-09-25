@@ -17,6 +17,9 @@ const handleSubmit = async () => {
     description: form.value.description
   }
   await createRequest(requestCreateSeed)
+
+  form.value.title = ''
+  form.value.description = ''
 }
 </script>
 
