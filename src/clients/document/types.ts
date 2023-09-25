@@ -18,7 +18,7 @@ export interface DocumentDetail extends Document {
 
 export interface DocumentQuerySeed {
   tags?: string[]
-  bookmarked?: boolean
+  type?: 'bookmark' | 'referenced'
 }
 
 export interface DocumentCreateSeed {

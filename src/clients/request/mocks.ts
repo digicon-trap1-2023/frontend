@@ -1,5 +1,5 @@
 import { RestHandler, rest } from 'msw'
-import type { Request, RequestCreateSeed } from './types'
+import type { Request, RequestCreateSeed, RequestWithDocuments } from './types'
 
 const requestData: Request = {
   id: '1',
@@ -8,9 +8,22 @@ const requestData: Request = {
   created_by: 'example user'
 }
 
+const requestWithDocumentsData: RequestWithDocuments = {
+  id: '1',
+  documents: [
+    {
+      id: '1',
+      title: 'example title'
+    }
+  ]
+}
+
 export const requestHandlers = (apiOrigin: string): RestHandler[] => [
   rest.get(`${apiOrigin}/requests`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json<Request[]>([requestData]))
+  ),
+  rest.get(`${apiOrigin}/requests/withDocuments`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json<RequestWithDocuments[]>([requestWithDocumentsData]))
   ),
   rest.post(`${apiOrigin}/requests`, async (req, res, ctx) => {
     const reqBody: RequestCreateSeed = await req.json()

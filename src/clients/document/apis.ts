@@ -18,15 +18,15 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const { role } = storeToRefs(roleStore)
 
   const res = useSWRV<Document[]>(
-    () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.bookmarked],
-    (origin, tags, bookmarked) => {
+    () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.type],
+    (origin, tags, type) => {
       if (tags && tags.length > 0) {
         searchParams.value.set('tags', tags.join(','))
       } else {
         searchParams.value.delete('tags')
       }
-      if (bookmarked) {
-        searchParams.value.set('type', 'bookmark')
+      if (type) {
+        searchParams.value.set('type', type)
       }
       return fetcher.getWithQuery(origin, searchParams.value, role.value)
     }
