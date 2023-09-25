@@ -22,7 +22,8 @@ const form = ref<DocumentCreateSeed>({
   title: '',
   description: '',
   tags: [],
-  file: null
+  file: null,
+  related_request: null
 })
 
 const tags = useFetchTags()

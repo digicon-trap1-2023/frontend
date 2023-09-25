@@ -24,7 +24,7 @@ export interface DocumentCreateSeed {
   title: string
   description: string
   tags: string[]
-  related_request: null
+  related_request: string | null
 }
 
 export type DocumentUpdateSeed = Partial<Omit<DocumentCreateSeed, 'related_request'>>
