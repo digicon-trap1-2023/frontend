@@ -2,14 +2,19 @@
 import { ref } from 'vue'
 import { ElForm, ElButton } from 'element-plus'
 
-import FileUploader from '@/components/NewDocument/FileUploader.vue'
-import DocumentInfoForm from '@/components/NewDocument/DocumentInfoForm.vue'
+import FileUploader from '@/components/newDocument/FileUploader.vue'
+import DocumentInfoForm from '@/components/newDocument/DocumentInfoForm.vue'
 import { createTags, useFetchTags } from '@/clients/tag/apis'
 import { createDocument } from '@/clients/document/apis'
 
 import type { DocumentCreateSeed } from '@/clients/document/types'
 import { useRoleStore } from '@/stores/role'
 import { storeToRefs } from 'pinia'
+import { useRoute, useRouter } from 'vue-router'
+import { parseQueryParam } from '@/lib/parseParam'
+
+const route = useRoute()
+const router = useRouter()
 
 const roleStore = useRoleStore()
 const { role } = storeToRefs(roleStore)
@@ -18,7 +23,8 @@ const form = ref<DocumentCreateSeed>({
   title: '',
   description: '',
   tags: [],
-  file: null
+  file: null,
+  related_request: null
 })
 
 const tags = useFetchTags()
@@ -35,9 +41,12 @@ const handleSubmit = async () => {
     title: form.value.title,
     description: form.value.description,
     tags: existingTags,
-    file: form.value.file
+    file: form.value.file,
+    related_request: parseQueryParam(route.query.requestId)
   }
+
   await createDocument(documentCreateSeed)
+  router.push('/documents')
 }
 </script>
 

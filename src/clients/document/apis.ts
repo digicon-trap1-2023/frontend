@@ -20,7 +20,7 @@ export const useFetchDocuments = (query?: DocumentQuerySeed) => {
     searchParams.set('tags', query.tags.join(','))
   }
   if (query?.bookmarked) {
-    searchParams.set('type', 'bookmarks')
+    searchParams.set('type', 'bookmark')
   }
 
   const { data, error } = useSWRV<Document[]>(`${getApiOrigin()}/documents`, () =>
@@ -49,6 +49,9 @@ export const createDocument = async (document: DocumentCreateSeed) => {
   formData.append('description', document.description)
   formData.append('tags', document.tags.join(','))
   formData.append('file', document.file)
+  if (document.related_request) {
+    formData.append('related_request', document.related_request)
+  }
 
   const res = await fetcher.postFormData<Document>(`${getApiOrigin()}/documents`, formData)
 
@@ -91,9 +94,9 @@ export const deleteBookmark = async (documentId: string) => {
 }
 
 export const postReferenced = async (documentId: string) => {
-  await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/referenced`)
+  await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/reference`)
 }
 
 export const deleteReferenced = async (documentId: string) => {
-  await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/referenced`)
+  await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/reference`)
 }
