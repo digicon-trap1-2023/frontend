@@ -35,6 +35,6 @@ export const documentHandlers = (apiOrigin: string): RestHandler[] => [
   rest.delete(`${apiOrigin}/documents/:id`, (req, res, ctx) => res(ctx.status(200))),
   rest.post(`${apiOrigin}/documents/:id/bookmarks`, (req, res, ctx) => res(ctx.status(200))),
   rest.delete(`${apiOrigin}/documents/:id/bookmarks`, (req, res, ctx) => res(ctx.status(200))),
-  rest.post(`${apiOrigin}/documents/:id/referenced`, (req, res, ctx) => res(ctx.status(200))),
-  rest.delete(`${apiOrigin}/documents/:id/referenced`, (req, res, ctx) => res(ctx.status(200)))
+  rest.post(`${apiOrigin}/documents/:id/reference`, (req, res, ctx) => res(ctx.status(200))),
+  rest.delete(`${apiOrigin}/documents/:id/reference`, (req, res, ctx) => res(ctx.status(200)))
 ]

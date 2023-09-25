@@ -91,9 +91,9 @@ export const deleteBookmark = async (documentId: string) => {
 }
 
 export const postReferenced = async (documentId: string) => {
-  await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/referenced`)
+  await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/reference`)
 }
 
 export const deleteReferenced = async (documentId: string) => {
-  await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/referenced`)
+  await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/reference`)
 }
