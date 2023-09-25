@@ -70,5 +70,6 @@ const documents = [
 .card {
   width: 450px;
   padding: 10px;
+  box-sizing: border-box;
 }
 </style>
