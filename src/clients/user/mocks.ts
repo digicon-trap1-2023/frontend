@@ -3,7 +3,7 @@ import type { User } from './types'
 
 const userData: User = {
   id: '1',
-  name: 'example name',
+  name: 'example user',
   role: 'writer'
 }
 export const userHandlers = (apiOrigin: string): RestHandler[] => [
