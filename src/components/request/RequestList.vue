@@ -33,12 +33,9 @@ const handleDeleteRequest = async (requestId: string) => {
           <el-button
             v-if="role === 'writer'"
             type="danger"
+            :icon="Delete"
             @click="handleDeleteRequest(request.id)"
-          >
-            <el-icon class="el-icon--delete">
-              <delete />
-            </el-icon>
-          </el-button>
+          />
           <router-link v-else :to="`/documents/new?requestId=${request.id}`">
             <el-button type="primary">この要望に対して資料を追加する</el-button>
           </router-link>
