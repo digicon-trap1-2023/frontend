@@ -8,14 +8,14 @@ import type {
   DocumentQuerySeed
 } from '@/clients/document/types'
 import { getApiOrigin } from '@/lib/env'
-import { useRoleStore } from '@/stores/role'
+import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
 import { type Ref, ref } from 'vue'
 
 export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const searchParams = ref(new URLSearchParams())
-  const roleStore = useRoleStore()
-  const { role } = storeToRefs(roleStore)
+  const meStore = useMeStore()
+  const { role } = storeToRefs(meStore)
 
   const res = useSWRV<Document[]>(
     () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.type],
@@ -37,8 +37,8 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
 
 export const useFetchDocumentsByReader = (query: Ref<DocumentQuerySeed>) => {
   const searchParams = ref(new URLSearchParams())
-  const roleStore = useRoleStore()
-  const { role } = storeToRefs(roleStore)
+  const meStore = useMeStore()
+  const { role } = storeToRefs(meStore)
 
   const res = useSWRV<Document[]>(
     () => [`${getApiOrigin()}/reader/documents`, query.value.tags, query.value.type],

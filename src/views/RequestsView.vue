@@ -3,11 +3,11 @@ import { useFetchRequests } from '@/clients/request/apis'
 import { computed } from 'vue'
 import RequestForm from '@/components/request/RequestForm.vue'
 import RequestList from '@/components/request/RequestList.vue'
-import { useRoleStore } from '@/stores/role'
+import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
 
-const roleStore = useRoleStore()
-const { role } = storeToRefs(roleStore)
+const meStore = useMeStore()
+const { role } = storeToRefs(meStore)
 
 const requests = useFetchRequests()
 

@@ -3,7 +3,7 @@ import type { Request } from '@/clients/request/types'
 import { ElCard, ElButton, ElAvatar } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 import { deleteRequest } from '@/clients/request/apis'
-import { useRoleStore } from '@/stores/role'
+import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
 
 interface Props {
@@ -12,8 +12,8 @@ interface Props {
 
 defineProps<Props>()
 
-const roleStore = useRoleStore()
-const { role } = storeToRefs(roleStore)
+const meStore = useMeStore()
+const { role } = storeToRefs(meStore)
 
 const handleDeleteRequest = async (requestId: string) => {
   await deleteRequest(requestId)

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useRoleStore } from '@/stores/role'
+import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
 import WriterTabPane from '@/components/myPage/WriterTabPane.vue'
 import ReaderTabPane from '@/components/myPage/ReaderTabPane.vue'
 
-const roleStore = useRoleStore()
-const { role } = storeToRefs(roleStore)
+const meStore = useMeStore()
+const { role } = storeToRefs(meStore)
 </script>
 
 <template>

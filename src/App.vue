@@ -2,17 +2,24 @@
 import { RouterView } from 'vue-router'
 import { ElSwitch } from 'element-plus'
 import { storeToRefs } from 'pinia'
-import { useRoleStore } from '@/stores/role'
-import { computed } from 'vue'
+import { useMeStore } from '@/stores/me'
+import { computed, watch } from 'vue'
+import { useFetchMe } from '@/clients/user/apis'
 
-const roleStore = useRoleStore()
-const { role } = storeToRefs(roleStore)
+const meData = useFetchMe()
+
+const meStore = useMeStore()
+const { me, role } = storeToRefs(meStore)
 
 const roleCalc = computed({
   get: () => role.value === 'writer',
   set: (v: boolean) => {
     role.value = v ? 'writer' : 'reader'
   }
+})
+
+watch(meData, () => {
+  me.value = meData.value
 })
 </script>
 

@@ -8,7 +8,7 @@ import { createTags, useFetchTags } from '@/clients/tag/apis'
 import { createDocument } from '@/clients/document/apis'
 
 import type { DocumentCreateSeed } from '@/clients/document/types'
-import { useRoleStore } from '@/stores/role'
+import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 import { parseQueryParam } from '@/lib/parseParam'
@@ -16,8 +16,8 @@ import { parseQueryParam } from '@/lib/parseParam'
 const route = useRoute()
 const router = useRouter()
 
-const roleStore = useRoleStore()
-const { role } = storeToRefs(roleStore)
+const meStore = useMeStore()
+const { role } = storeToRefs(meStore)
 
 const form = ref<DocumentCreateSeed>({
   title: '',

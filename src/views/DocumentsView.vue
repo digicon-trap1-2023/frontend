@@ -4,11 +4,11 @@ import DocumentCard from '@/components/Documents/DocumentCard.vue'
 import TagSelector from '@/components/Documents/TagSelector.vue'
 import { storeToRefs } from 'pinia'
 import { ref, toRef, type Ref } from 'vue'
-import { useRoleStore } from '@/stores/role'
+import { useMeStore } from '@/stores/me'
 import type { DocumentQuerySeed } from '@/clients/document/types'
 
-const roleStore = useRoleStore()
-const { role } = storeToRefs(roleStore)
+const meStore = useMeStore()
+const { role } = storeToRefs(meStore)
 
 const useDocuments = (query: Ref<DocumentQuerySeed>) => {
   if (role.value === 'writer') {
