@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import TheWelcome from '../components/TheWelcome.vue'
 import ModalComponent from '@/components/modal/ModalComponent.vue'
 import { useFetchDocumentDetail } from '@/clients/document/apis'
 
@@ -12,7 +11,6 @@ const document = useFetchDocumentDetail('aa')
 
 <template>
   <main>
-    <TheWelcome />
     <button
       @click="
         () => {
