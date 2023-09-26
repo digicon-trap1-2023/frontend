@@ -12,19 +12,25 @@ import {
   ElIcon
 } from 'element-plus'
 import { ref, watch } from 'vue'
-import { Star, StarFilled, Check, CircleCheckFilled } from '@element-plus/icons-vue'
+import { Star, StarFilled, Check, CircleCheckFilled, ArrowDown } from '@element-plus/icons-vue'
 import { postBookmark, postReferenced } from '@/clients/document/apis'
+import { useRoleStore } from '@/stores/role'
+import { storeToRefs } from 'pinia'
 
 const props = defineProps<{
   document: DocumentDetail
 }>()
 
+const roleStore = useRoleStore()
+const { role } = storeToRefs(roleStore)
 const isBookmarked = ref(props.document.bookmarked)
 const isReferenced = ref(props.document.referenced)
 
 const img = ref<HTMLImageElement>()
 
 const imgWidth = ref(0)
+
+const scrollHeight = ref(0)
 
 const observer = new ResizeObserver((entries) => (imgWidth.value = entries[0].contentRect.width))
 watch(
@@ -43,9 +49,21 @@ watch(
 
 <template>
   <ElDialog append-to-body lock-scroll :class="$style.modal" top="5vh">
-    <ElScrollbar height="100%" :wrap-class="$style.scrollbar" :view-class="$style.scrollbar">
+    <ElScrollbar
+      height="100%"
+      :wrap-class="$style.scrollbar"
+      :view-class="$style.scrollbar"
+      @scroll="
+        (e: any) => {
+          scrollHeight = e.scrollTop
+        }
+      "
+    >
       <div :class="$style.imgContainer">
         <img :src="props.document.file" :class="$style.img" ref="img" />
+        <div :is-Show="scrollHeight === 0" :class="$style.imgOverlay">
+          <ElIcon size="100px"><ArrowDown /></ElIcon>
+        </div>
       </div>
 
       <ElSpace
@@ -68,7 +86,7 @@ watch(
               </div>
             </ElSpace>
           </div>
-          <div :class="$style.buttonContainer">
+          <div :class="$style.buttonContainer" v-if="role === 'writer'">
             <el-button
               :class="$style.button"
               @click="
@@ -103,7 +121,7 @@ watch(
                   <Check v-else />
                 </ElIcon>
               </template>
-              参考になった
+              参考にした
             </el-button>
           </div>
         </div>
@@ -146,6 +164,7 @@ watch(
   width: 100%;
   height: 100%;
   background-color: var(--el-color-primary-light-9, #c6e2ff);
+  position: relative;
 }
 .img {
   width: 100%;
@@ -199,5 +218,21 @@ watch(
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.imgOverlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0) 0, rgba(0, 0, 0, 0.3) 200px);
+  height: 200px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  transition: 0.5s ease;
+  opacity: 0;
+}
+.imgOverlay[is-show='true']:hover {
+  opacity: 1;
 }
 </style>
