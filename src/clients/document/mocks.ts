@@ -52,6 +52,32 @@ export const documentHandlers = (apiOrigin: string): RestHandler[] => [
 
     return res(ctx.status(200), ctx.json<Document[]>(documentsData))
   }),
+  rest.get(`${apiOrigin}/reader/documents`, (req, res, ctx) => {
+    const list = req.url.searchParams
+      .get('tags')
+      ?.split(',')
+      .map((v) => v.slice(-1))
+    if (list) {
+      return res(
+        ctx.status(200),
+        ctx.json<Document[]>(documentsData.filter((v) => list.some((w) => w === v.id.slice(-1)))
+          .map((document, index) => ({
+          ...document,
+          referenced_users: index % 2 === 0 ? ['user1'] : []
+        })))
+      )
+    }
+
+    return res(
+      ctx.status(200),
+      ctx.json<Document[]>(
+        documentsData.map((document, index) => ({
+          ...document,
+          referenced_users: index % 2 === 0 ? ['user1'] : []
+        }))
+      )
+    )
+  }),
   rest.get(`${apiOrigin}/documents/:id`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json<DocumentDetail>(documentDetailData))
   ),

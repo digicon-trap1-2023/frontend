@@ -1,11 +1,24 @@
 <script setup lang="ts">
-import { useFetchDocuments } from '@/clients/document/apis'
+import { useFetchDocuments, useFetchDocumentsByReader } from '@/clients/document/apis'
 import DocumentCard from '@/components/Documents/DocumentCard.vue'
 import TagSelector from '@/components/Documents/TagSelector.vue'
-import { ref, toRef } from 'vue'
+import { storeToRefs } from 'pinia'
+import { ref, toRef, type Ref } from 'vue'
+import { useRoleStore } from '@/stores/role'
+import type { DocumentQuerySeed } from '@/clients/document/types'
+
+const roleStore = useRoleStore()
+const { role } = storeToRefs(roleStore)
+
+const useDocuments = (query: Ref<DocumentQuerySeed>) => {
+  if (role.value === 'writer') {
+    return useFetchDocuments(query)
+  }
+  return useFetchDocumentsByReader(query)
+}
 
 const tags = ref<string[]>()
-const { data: documents, isValidating } = useFetchDocuments(toRef({ tags }))
+const { data: documents, isValidating } = useDocuments(toRef({ tags }))
 </script>
 
 <template>
