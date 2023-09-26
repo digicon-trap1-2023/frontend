@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Request } from '@/clients/request/types'
-import { ElCard, ElButton, ElIcon, ElAvatar } from 'element-plus'
+import { ElCard, ElButton, ElAvatar } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 import { deleteRequest } from '@/clients/request/apis'
 import { useRoleStore } from '@/stores/role'
