@@ -9,6 +9,7 @@ export interface Document {
   userId: string
   userName: string
   related_request: string | null
+  referenced_users?: string[]
 }
 
 export interface DocumentDetail extends Document {
@@ -18,7 +19,7 @@ export interface DocumentDetail extends Document {
 
 export interface DocumentQuerySeed {
   tags?: string[]
-  bookmarked?: boolean
+  type?: 'bookmark' | 'referenced'
 }
 
 export interface DocumentCreateSeed {

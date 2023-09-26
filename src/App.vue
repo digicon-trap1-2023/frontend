@@ -11,7 +11,7 @@ const { role } = storeToRefs(roleStore)
 const roleCalc = computed({
   get: () => role.value === 'writer',
   set: (v: boolean) => {
-    role.value = v ? 'writer' : 'other'
+    role.value = v ? 'writer' : 'reader'
   }
 })
 </script>

@@ -5,6 +5,14 @@ export interface Request {
   created_by: string
 }
 
+export interface RequestWithDocuments {
+  id: string
+  documents: {
+    id: string
+    title: string
+  }[]
+}
+
 export interface RequestCreateSeed {
   title: string
   description: string
