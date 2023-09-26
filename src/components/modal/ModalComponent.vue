@@ -69,7 +69,6 @@ watch(
           </div>
           <div :class="$style.buttonContainer">
             <el-button
-              circle
               :class="$style.button"
               @click="() => (isBookmarked = !isBookmarked)"
               :is-enabled="isBookmarked"
@@ -80,9 +79,9 @@ watch(
                   <star v-else />
                 </ElIcon>
               </template>
+              ブックマーク
             </el-button>
             <el-button
-              circle
               :class="$style.button"
               @click="() => (isReferenced = !isReferenced)"
               :is-enabled="isReferenced"
@@ -93,6 +92,7 @@ watch(
                   <Check v-else />
                 </ElIcon>
               </template>
+              参考になった
             </el-button>
           </div>
         </div>
@@ -174,12 +174,10 @@ watch(
 }
 
 .button {
-  height: 50px;
-  width: 50px;
-  min-height: 50px;
-  min-width: 50px;
-  max-height: 50px;
-  max-width: 50px;
+  width: 100%;
+}
+.button + .button {
+  margin: 0;
 }
 .button[is-enabled='true'] {
   color: var(--el-button-hover-text-color);
@@ -187,8 +185,8 @@ watch(
   background-color: var(--el-button-hover-bg-color);
 }
 .buttonContainer {
-  width: 120px;
-  min-width: 120px;
-  max-width: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 </style>
