@@ -2,15 +2,10 @@
 import { useFetchDocuments } from '@/clients/document/apis'
 import DocumentCard from '@/components/Documents/DocumentCard.vue'
 import TagSelector from '@/components/Documents/TagSelector.vue'
-import { ref, toRef, watch } from 'vue'
+import { ref, toRef } from 'vue'
 
 const tags = ref<string[]>()
 const { data: documents, isValidating } = useFetchDocuments(toRef({ tags }))
-
-watch(
-  () => documents.value,
-  () => alert(documents)
-)
 </script>
 
 <template>

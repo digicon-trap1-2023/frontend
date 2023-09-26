@@ -10,7 +10,7 @@ import type {
 import { getApiOrigin } from '@/lib/env'
 import { useRoleStore } from '@/stores/role'
 import { storeToRefs } from 'pinia'
-import { type Ref, ref, watch } from 'vue'
+import { type Ref, ref } from 'vue'
 
 export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const searchParams = ref(new URLSearchParams())
@@ -32,10 +32,6 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
     }
   )
   if (res.error.value) throw new Error(res.error.value.message)
-  watch(
-    () => res.data.value,
-    () => alert('useSWRV' + `${res.data.value}`)
-  )
   return res
 }
 
