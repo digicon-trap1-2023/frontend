@@ -21,7 +21,6 @@ import {
 } from '@/clients/document/apis'
 import { useRoleStore } from '@/stores/role'
 import { storeToRefs } from 'pinia'
-import { nextTick } from 'process'
 
 const props = defineProps<{
   document: DocumentDetail
@@ -72,7 +71,7 @@ const toggleReferenced = async () => {
   isReferenced.value = !isReferenced.value
 }
 const scrollToDiscription = async () => {
-  if (scroll.value && img.value) {
+  if (scrollHeight.value === 0 && scroll.value && img.value) {
     scroll.value.scrollTo({
       top: img.value.height,
       behavior: 'smooth'
