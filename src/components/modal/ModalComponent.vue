@@ -13,9 +13,15 @@ import {
 } from 'element-plus'
 import { ref, watch } from 'vue'
 import { Star, StarFilled, Check, CircleCheckFilled, ArrowDown } from '@element-plus/icons-vue'
-import { postBookmark, postReferenced } from '@/clients/document/apis'
+import {
+  deleteBookmark,
+  deleteReferenced,
+  postBookmark,
+  postReferenced
+} from '@/clients/document/apis'
 import { useRoleStore } from '@/stores/role'
 import { storeToRefs } from 'pinia'
+import { nextTick } from 'process'
 
 const props = defineProps<{
   document: DocumentDetail
@@ -27,6 +33,8 @@ const isBookmarked = ref(props.document.bookmarked)
 const isReferenced = ref(props.document.referenced)
 
 const img = ref<HTMLImageElement>()
+const description = ref<HTMLDivElement>()
+const scroll = ref<HTMLDivElement>()
 
 const imgWidth = ref(0)
 
@@ -45,6 +53,32 @@ watch(
   },
   { immediate: true }
 )
+
+const toggleBookmark = async () => {
+  if (isBookmarked.value) {
+    await deleteBookmark(props.document.id)
+  } else {
+    await postBookmark(props.document.id)
+  }
+  isBookmarked.value = !isBookmarked.value
+}
+
+const toggleReferenced = async () => {
+  if (isReferenced.value) {
+    await deleteReferenced(props.document.id)
+  } else {
+    await postReferenced(props.document.id)
+  }
+  isReferenced.value = !isReferenced.value
+}
+const scrollToDiscription = async () => {
+  if (scroll.value && img.value) {
+    scroll.value.scrollTo({
+      top: img.value.height,
+      behavior: 'smooth'
+    })
+  }
+}
 </script>
 
 <template>
@@ -53,15 +87,12 @@ watch(
       height="100%"
       :wrap-class="$style.scrollbar"
       :view-class="$style.scrollbar"
-      @scroll="
-        (e: any) => {
-          scrollHeight = e.scrollTop
-        }
-      "
+      @scroll="(e: any) => (scrollHeight = e.scrollTop)"
+      ref="scroll"
     >
       <div :class="$style.imgContainer">
         <img :src="props.document.file" :class="$style.img" ref="img" />
-        <div :is-Show="scrollHeight === 0" :class="$style.imgOverlay">
+        <div :is-Show="scrollHeight === 0" :class="$style.imgOverlay" @click="scrollToDiscription">
           <ElIcon size="100px"><ArrowDown /></ElIcon>
         </div>
       </div>
@@ -71,6 +102,7 @@ watch(
         direction="vertical"
         alignment="start"
         :style="{ width: imgWidth + 'px' }"
+        ref="description"
       >
         <div :class="$style.title">
           <div>
@@ -87,16 +119,7 @@ watch(
             </ElSpace>
           </div>
           <div :class="$style.buttonContainer" v-if="role === 'writer'">
-            <el-button
-              :class="$style.button"
-              @click="
-                async () => {
-                  await postBookmark(document.id)
-                  isBookmarked = !isBookmarked
-                }
-              "
-              :is-enabled="isBookmarked"
-            >
+            <el-button :class="$style.button" @click="toggleBookmark" :is-enabled="isBookmarked">
               <template #icon>
                 <ElIcon :size="30" :class="$style.icon">
                   <star-filled v-if="isBookmarked" />
@@ -105,16 +128,7 @@ watch(
               </template>
               ブックマーク
             </el-button>
-            <el-button
-              :class="$style.button"
-              @click="
-                async () => {
-                  await postReferenced(document.id)
-                  isReferenced = !isReferenced
-                }
-              "
-              :is-enabled="isReferenced"
-            >
+            <el-button :class="$style.button" @click="toggleReferenced" :is-enabled="isReferenced">
               <template #icon>
                 <ElIcon :size="30" :class="$style.icon">
                   <CircleCheckFilled v-if="isReferenced" />
@@ -233,6 +247,7 @@ watch(
   opacity: 0;
 }
 .imgOverlay[is-show='true']:hover {
+  cursor: pointer;
   opacity: 1;
 }
 .icon {

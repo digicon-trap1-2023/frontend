@@ -30,7 +30,7 @@ const documentsData: Document[] = Array(40)
 
 const documentDetailData: DocumentDetail = {
   ...documentData,
-  description: 'example description',
+  description: 'example description'.repeat(1000),
   tags: [
     { id: '1', name: 'tag1' },
     { id: '2', name: 'tag2' }
