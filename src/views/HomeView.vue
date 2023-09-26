@@ -15,6 +15,13 @@ const visible = ref(false)
       :src="'https://placehold.jp/1000x1000.png'"
       :user-id="'aaaa'"
       :user-name="'noc7t'"
+      :title="'sumple title'"
+      :description="
+        Array(100)
+          .fill(0)
+          .map(() => 'description ')
+          .join('')
+      "
     >
     </ModalComponent>
   </main>
