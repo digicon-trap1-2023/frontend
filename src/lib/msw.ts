@@ -13,7 +13,11 @@ export const initMock = () => {
     const worker = setupWorker(...handlers(getApiOrigin()))
     worker.start({
       onUnhandledRequest(req, print) {
-        if (req.url.pathname.startsWith('/node_modules') || req.url.pathname.startsWith('/src')) {
+        if (
+          req.url.pathname.startsWith('/node_modules') ||
+          req.url.pathname.startsWith('/src') ||
+          req.url.origin === 'https://placehold.jp'
+        ) {
           return
         }
         print.warning()
