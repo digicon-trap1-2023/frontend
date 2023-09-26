@@ -2,10 +2,15 @@
 import { useFetchDocuments } from '@/clients/document/apis'
 import DocumentCard from '@/components/Documents/DocumentCard.vue'
 import TagSelector from '@/components/Documents/TagSelector.vue'
-import { ref, toRef } from 'vue'
+import { ref, toRef, watch } from 'vue'
 
 const tags = ref<string[]>()
 const { data: documents, isValidating } = useFetchDocuments(toRef({ tags }))
+
+watch(
+  () => documents.value,
+  () => alert(documents)
+)
 </script>
 
 <template>
@@ -15,8 +20,8 @@ const { data: documents, isValidating } = useFetchDocuments(toRef({ tags }))
       <div
         v-masonry-tile
         class="item"
-        v-for="(item, index) in documents"
-        :key="index"
+        v-for="item in documents"
+        :key="item.id"
         :class="$style.card"
       >
         <document-card

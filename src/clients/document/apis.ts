@@ -10,14 +10,14 @@ import type {
 import { getApiOrigin } from '@/lib/env'
 import { useRoleStore } from '@/stores/role'
 import { storeToRefs } from 'pinia'
-import { type Ref, ref } from 'vue'
+import { type Ref, ref, watch } from 'vue'
 
 export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const searchParams = ref(new URLSearchParams())
   const roleStore = useRoleStore()
   const { role } = storeToRefs(roleStore)
 
-  const { data, error, isValidating } = useSWRV<Document[]>(
+  const res = useSWRV<Document[]>(
     () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.bookmarked],
     (origin, tags, bookmarked) => {
       if (tags && tags.length > 0) {
@@ -26,14 +26,17 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
         searchParams.value.delete('tags')
       }
       if (bookmarked) {
-        searchParams.value.set('type', 'bookmarks')
+        searchParams.value.set('type', 'bookmark')
       }
       return fetcher.getWithQuery(origin, searchParams.value, role.value)
     }
   )
-  if (error.value) throw new Error(error.value.message)
-
-  return { data, isValidating }
+  if (res.error.value) throw new Error(res.error.value.message)
+  watch(
+    () => res.data.value,
+    () => alert('useSWRV' + `${res.data.value}`)
+  )
+  return res
 }
 
 export const useFetchDocumentDetail = (documentId: string) => {
