@@ -17,14 +17,14 @@ const { data: documents } = useFetchDocuments(
 )
 const requests = useFetchRequestsWithDocuments()
 
-const activeTab = ref<'referenced' | 'bookmark'>('bookmark')
+const activeTab = ref<'referenced' | 'request'>('request')
 </script>
 
 <template>
   <div>
     <h1>マイページ</h1>
     <el-tabs v-model="activeTab" v-if="role === 'writer'">
-      <el-tab-pane label="ブックマーク" name="bookmark">
+      <el-tab-pane label="要望に対する資料" name="request">
         <request-list :requests="requests" v-if="requests !== undefined" />
       </el-tab-pane>
       <el-tab-pane label="使った資料" name="referenced">
