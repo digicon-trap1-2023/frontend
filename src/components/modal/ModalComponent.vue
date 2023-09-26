@@ -98,7 +98,7 @@ watch(
               :is-enabled="isBookmarked"
             >
               <template #icon>
-                <ElIcon :size="30">
+                <ElIcon :size="30" :class="$style.icon">
                   <star-filled v-if="isBookmarked" />
                   <star v-else />
                 </ElIcon>
@@ -116,7 +116,7 @@ watch(
               :is-enabled="isReferenced"
             >
               <template #icon>
-                <ElIcon :size="30">
+                <ElIcon :size="30" :class="$style.icon">
                   <CircleCheckFilled v-if="isReferenced" />
                   <Check v-else />
                 </ElIcon>
@@ -173,7 +173,7 @@ watch(
   display: block;
 }
 .description {
-  padding: 12px;
+  padding: 24px;
   box-sizing: border-box;
 }
 
@@ -217,7 +217,7 @@ watch(
 .buttonContainer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .imgOverlay {
@@ -234,5 +234,8 @@ watch(
 }
 .imgOverlay[is-show='true']:hover {
   opacity: 1;
+}
+.icon {
+  margin-right: 8px;
 }
 </style>
