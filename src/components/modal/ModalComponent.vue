@@ -13,6 +13,7 @@ import {
 } from 'element-plus'
 import { ref, watch } from 'vue'
 import { Star, StarFilled, Check, CircleCheckFilled } from '@element-plus/icons-vue'
+import { postBookmark, postReferenced } from '@/clients/document/apis'
 
 const props = defineProps<{
   document: DocumentDetail
@@ -70,7 +71,12 @@ watch(
           <div :class="$style.buttonContainer">
             <el-button
               :class="$style.button"
-              @click="() => (isBookmarked = !isBookmarked)"
+              @click="
+                async () => {
+                  await postBookmark(document.id)
+                  isBookmarked = !isBookmarked
+                }
+              "
               :is-enabled="isBookmarked"
             >
               <template #icon>
@@ -83,7 +89,12 @@ watch(
             </el-button>
             <el-button
               :class="$style.button"
-              @click="() => (isReferenced = !isReferenced)"
+              @click="
+                async () => {
+                  await postReferenced(document.id)
+                  isReferenced = !isReferenced
+                }
+              "
               :is-enabled="isReferenced"
             >
               <template #icon>
