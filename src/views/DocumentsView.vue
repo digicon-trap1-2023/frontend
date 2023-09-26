@@ -15,8 +15,8 @@ const { data: documents, isValidating } = useFetchDocuments(toRef({ tags }))
       <div
         v-masonry-tile
         class="item"
-        v-for="(item, index) in documents"
-        :key="index"
+        v-for="item in documents"
+        :key="item.id"
         :class="$style.card"
       >
         <document-card

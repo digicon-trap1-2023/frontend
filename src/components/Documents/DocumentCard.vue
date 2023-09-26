@@ -42,7 +42,13 @@ const toggleBookmark = async () => {
         </div>
       </div>
     </div>
-    <el-button circle :class="$style.starButton" @click="toggleBookmark" :is-stard="isBookmarked">
+    <el-button
+      circle
+      :class="$style.starButton"
+      @click="toggleBookmark"
+      :is-stard="isBookmarked"
+      :is-hoverd="isHoverd"
+    >
       <template #icon>
         <ElIcon :size="30">
           <star-filled v-if="isBookmarked" />
@@ -92,12 +98,17 @@ const toggleBookmark = async () => {
   right: 0px;
   height: 50px;
   width: 50px;
-  opacity: 0.7;
+  opacity: 0;
 }
-.starButton:hover {
+.starButton[is-hoverd='true'] {
+  transition: 0.5s ease;
   opacity: 1;
 }
 .starButton[is-stard='true'] {
   opacity: 1;
+  color: var(--el-button-hover-text-color);
+  border-color: var(--el-button-hover-border-color);
+  background-color: var(--el-button-hover-bg-color);
+  outline: 0;
 }
 </style>

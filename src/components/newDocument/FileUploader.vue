@@ -52,11 +52,7 @@ const handleRemoveImage = () => {
       <img :src="imageUrl" alt="" width="300" height="300" :class="$style.image" />
     </div>
     <div :class="$style.removeImageButtonContainer" v-if="imageUrl !== undefined">
-      <el-button @click="handleRemoveImage" type="danger">
-        <el-icon class="el-icon--delete">
-          <delete />
-        </el-icon>
-      </el-button>
+      <el-button @click="handleRemoveImage" type="danger" :icon="Delete" />
     </div>
   </div>
 </template>

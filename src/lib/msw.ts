@@ -20,7 +20,6 @@ export const initMock = () => {
         ) {
           return
         }
-        console.log(req.url)
         print.warning()
       }
     })

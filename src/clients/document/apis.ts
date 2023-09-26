@@ -17,7 +17,7 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const roleStore = useRoleStore()
   const { role } = storeToRefs(roleStore)
 
-  const { data, error, isValidating } = useSWRV<Document[]>(
+  const res = useSWRV<Document[]>(
     () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.bookmarked],
     (origin, tags, bookmarked) => {
       if (tags && tags.length > 0) {
@@ -26,14 +26,13 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
         searchParams.value.delete('tags')
       }
       if (bookmarked) {
-        searchParams.value.set('type', 'bookmarks')
+        searchParams.value.set('type', 'bookmark')
       }
       return fetcher.getWithQuery(origin, searchParams.value, role.value)
     }
   )
-  if (error.value) throw new Error(error.value.message)
-
-  return { data, isValidating }
+  if (res.error.value) throw new Error(res.error.value.message)
+  return res
 }
 
 export const useFetchDocumentDetail = (documentId: string) => {

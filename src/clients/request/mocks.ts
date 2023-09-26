@@ -7,6 +7,7 @@ const requestData: Request = {
   description: 'example description',
   created_by: 'example user'
 }
+
 export const requestHandlers = (apiOrigin: string): RestHandler[] => [
   rest.get(`${apiOrigin}/requests`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json<Request[]>([requestData]))
