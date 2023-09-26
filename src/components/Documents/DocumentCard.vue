@@ -2,12 +2,14 @@
 import { ElCard, ElButton, ElIcon, ElAvatar, ElText } from 'element-plus'
 import { Star, StarFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import { deleteBookmark, postBookmark } from '@/clients/document/apis'
 
 const props = defineProps<{
   imgSrc: string
   username: string
   title: string
   isBookmarked: boolean
+  id: string
 }>()
 
 const isBookmarked = ref(props.isBookmarked)
@@ -15,6 +17,15 @@ const isHoverd = ref(false)
 
 const mouseEnter = () => (isHoverd.value = true)
 const mouseLeave = () => (isHoverd.value = false)
+
+const toggleBookmark = async () => {
+  if (isBookmarked.value) {
+    await deleteBookmark(props.id)
+  } else {
+    await postBookmark(props.id)
+  }
+  isBookmarked.value = !isBookmarked.value
+}
 </script>
 
 <template>
@@ -34,7 +45,7 @@ const mouseLeave = () => (isHoverd.value = false)
     <el-button
       circle
       :class="$style.starButton"
-      @click="() => (isBookmarked = !isBookmarked)"
+      @click="toggleBookmark"
       :is-stard="isBookmarked"
       :is-hoverd="isHoverd"
     >

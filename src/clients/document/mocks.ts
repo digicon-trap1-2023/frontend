@@ -4,7 +4,8 @@ import type { Document, DocumentDetail } from './types'
 const documentData: Document = {
   id: '1',
   file: 'https://placehold.jp/150x150.png',
-  title: 'example document',
+  title:
+    'example document aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
   bookmarked: false,
   referenced: false,
   userId: '1',
@@ -29,7 +30,7 @@ const documentsData: Document[] = Array(40)
 
 const documentDetailData: DocumentDetail = {
   ...documentData,
-  description: 'example description',
+  description: 'example description'.repeat(1000),
   tags: [
     { id: '1', name: 'tag1' },
     { id: '2', name: 'tag2' }

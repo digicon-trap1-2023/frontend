@@ -24,6 +24,7 @@ const { data: documents, isValidating } = useFetchDocuments(toRef({ tags }))
           :username="item.userName"
           :title="item.title"
           :is-bookmarked="item.bookmarked"
+          :id="item.id"
         ></document-card>
       </div>
     </div>
