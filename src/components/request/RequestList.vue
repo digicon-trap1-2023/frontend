@@ -3,7 +3,7 @@ import type { Request } from '@/clients/request/types'
 import { ElCard, ElButton, ElAvatar } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 import { deleteRequest } from '@/clients/request/apis'
-import { useRoleStore } from '@/stores/role'
+import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
 
 interface Props {
@@ -12,8 +12,8 @@ interface Props {
 
 defineProps<Props>()
 
-const roleStore = useRoleStore()
-const { role } = storeToRefs(roleStore)
+const meStore = useMeStore()
+const { me, role } = storeToRefs(meStore)
 
 const handleDeleteRequest = async (requestId: string) => {
   await deleteRequest(requestId)
@@ -29,14 +29,13 @@ const handleDeleteRequest = async (requestId: string) => {
       <div :class="$style.cardContainer">
         <div :class="$style.header">
           <span :class="$style.username">{{ request.created_by }}</span>
-          <!--TODO: GET meの実装したら条件追加する-->
           <el-button
-            v-if="role === 'writer'"
+            v-if="role === 'writer' && request.created_by === me.name"
             type="danger"
             :icon="Delete"
             @click="handleDeleteRequest(request.id)"
           />
-          <router-link v-else :to="`/documents/new?requestId=${request.id}`">
+          <router-link v-else-if="role === 'reader'" :to="`/documents/new?requestId=${request.id}`">
             <el-button type="primary">この要望に対して資料を追加する</el-button>
           </router-link>
         </div>

@@ -4,9 +4,15 @@ import { getApiOrigin } from './env'
 import { documentHandlers } from '@/clients/document/mocks'
 import { tagHandlers } from '@/clients/tag/mocks'
 import { requestHandlers } from '@/clients/request/mocks'
+import { userHandlers } from '@/clients/user/mocks'
 
 const handlers = (apiOrigin: string) =>
-  [documentHandlers(apiOrigin), tagHandlers(apiOrigin), requestHandlers(apiOrigin)].flat()
+  [
+    documentHandlers(apiOrigin),
+    tagHandlers(apiOrigin),
+    requestHandlers(apiOrigin),
+    userHandlers(apiOrigin)
+  ].flat()
 
 export const initMock = () => {
   if (import.meta.env.MODE === 'development') {

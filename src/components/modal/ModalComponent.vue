@@ -19,15 +19,15 @@ import {
   postBookmark,
   postReferenced
 } from '@/clients/document/apis'
-import { useRoleStore } from '@/stores/role'
+import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
 
 const props = defineProps<{
   document: DocumentDetail
 }>()
 
-const roleStore = useRoleStore()
-const { role } = storeToRefs(roleStore)
+const meStore = useMeStore()
+const { role } = storeToRefs(meStore)
 const isBookmarked = ref(props.document.bookmarked)
 const isReferenced = ref(props.document.referenced)
 
