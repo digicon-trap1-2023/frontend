@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ElDialog, ElAvatar, ElText, ElSpace, ElScrollbar, ElCard } from 'element-plus'
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps<{
   src: string
@@ -32,7 +32,8 @@ watch(
 <template>
   <ElDialog append-to-body lock-scroll :class="$style.modal" top="5vh">
     <ElScrollbar height="100%" :wrap-class="$style.scrollbar" :view-class="$style.scrollbar">
-      <img :src="props.src" :class="$style.img" ref="img" />
+      <div :class="$style.imgContainer"><img :src="props.src" :class="$style.img" ref="img" /></div>
+
       <ElSpace
         :class="$style.description"
         direction="vertical"
@@ -69,7 +70,6 @@ watch(
   margin-bottom: 0;
   overscroll-behavior: contain;
   overflow-y: auto;
-  container: inline-size;
 }
 
 .modal > header {
@@ -80,6 +80,11 @@ watch(
   width: 100%;
   height: 100%;
   padding: 0;
+}
+.imgContainer {
+  width: 100%;
+  height: 100%;
+  background-color: var(--el-color-primary-light-9, #c6e2ff);
 }
 .img {
   width: 100%;
