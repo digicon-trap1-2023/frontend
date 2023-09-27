@@ -74,7 +74,7 @@ export const createDocument = async (document: DocumentCreateSeed) => {
   const formData = new FormData()
   formData.append('title', document.title)
   formData.append('description', document.description)
-  formData.append('tags', document.tags.join(','))
+  formData.append('tags', document.tags)
   formData.append('file', document.file)
   if (document.related_request) {
     formData.append('related_request', document.related_request)
