@@ -41,6 +41,8 @@ const handleSelectCurrentDocument = (id: string) => {
               :title="item.title"
               :is-bookmarked="item.bookmarked"
               :id="item.id"
+              :width="item.file_width"
+              :height="item.file_height"
             />
           </button>
         </div>
