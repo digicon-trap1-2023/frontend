@@ -11,6 +11,8 @@ const props = defineProps<{
   title: string
   isBookmarked: boolean
   id: string
+  width: number
+  height: number
 }>()
 
 const isBookmarked = ref(props.isBookmarked)
@@ -33,7 +35,7 @@ const avatarColor = randomColor()
 
 <template>
   <el-card :body-class="$style.card" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
-    <img :src="props.imgSrc" :class="$style.image" />
+    <img :src="props.imgSrc" :class="$style.image" :width="width" :height="height" />
     <div :class="$style.description" :is-hoverd="isHoverd">
       <ElAvatar :style="{ backgroundColor: avatarColor }">
         <span :class="$style.avatarName">
