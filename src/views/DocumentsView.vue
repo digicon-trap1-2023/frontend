@@ -27,7 +27,7 @@ const tags = ref<string[]>()
 const { data: documents, isValidating } = useDocuments(toRef({ tags }))
 
 const isModalOpen = ref(initialDocumentId.value ? true : false)
-const currentModalDocumentId = ref<string | null>(initialDocumentId.value)
+const currentModalDocumentId = ref<string | null>(initialDocumentId.value ?? null)
 
 const handleSelectCurrentDocument = (id: string) => {
   currentModalDocumentId.value = id
