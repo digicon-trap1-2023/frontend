@@ -6,7 +6,7 @@ import { ElScrollbar } from 'element-plus'
 
 <template>
   <div :class="$style.container">
-    <ElScrollbar>
+    <ElScrollbar :view-class="$style.view">
       <app-header />
       <main :class="$style.pageContainer">
         <RouterView />
@@ -21,11 +21,17 @@ import { ElScrollbar } from 'element-plus'
   height: 100vh;
   color: #333333;
 }
+
+.view {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 .pageContainer {
   border-radius: 60px 60px 0 0;
   background-color: #fffef7;
   margin: 40px 180px 0;
   padding: 32px 100px;
-  height: 100%;
+  flex: 1 1 100%;
 }
 </style>
