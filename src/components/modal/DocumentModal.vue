@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { DocumentDetail } from '@/clients/document/types'
 import {
   ElDialog,
   ElAvatar,
@@ -21,15 +20,18 @@ import {
 } from '@/clients/document/apis'
 import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
+import { useFetchDocumentDetail } from '@/clients/document/apis'
 
 const props = defineProps<{
-  document: DocumentDetail
+  documentId: string
 }>()
+
+const document = useFetchDocumentDetail(props.documentId)
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
-const isBookmarked = ref(props.document.bookmarked)
-const isReferenced = ref(props.document.referenced)
+const isBookmarked = ref(document.value?.bookmarked ?? false)
+const isReferenced = ref(document.value?.referenced ?? false)
 
 const img = ref<HTMLImageElement>()
 const description = ref<HTMLDivElement>()
@@ -55,18 +57,18 @@ watch(
 
 const toggleBookmark = async () => {
   if (isBookmarked.value) {
-    await deleteBookmark(props.document.id)
+    await deleteBookmark(props.documentId)
   } else {
-    await postBookmark(props.document.id)
+    await postBookmark(props.documentId)
   }
   isBookmarked.value = !isBookmarked.value
 }
 
 const toggleReferenced = async () => {
   if (isReferenced.value) {
-    await deleteReferenced(props.document.id)
+    await deleteReferenced(props.documentId)
   } else {
-    await postReferenced(props.document.id)
+    await postReferenced(props.documentId)
   }
   isReferenced.value = !isReferenced.value
 }
@@ -81,7 +83,13 @@ const scrollToDiscription = async () => {
 </script>
 
 <template>
-  <ElDialog append-to-body lock-scroll :class="$style.modal" top="5vh">
+  <ElDialog
+    append-to-body
+    lock-scroll
+    :class="$style.modal"
+    top="5vh"
+    v-if="document !== undefined"
+  >
     <ElScrollbar
       height="100%"
       :wrap-class="$style.scrollbar"
@@ -90,7 +98,7 @@ const scrollToDiscription = async () => {
       ref="scroll"
     >
       <div :class="$style.imgContainer">
-        <img :src="props.document.file" :class="$style.img" ref="img" />
+        <img :src="document.file" :class="$style.img" ref="img" />
         <div :is-Show="scrollHeight === 0" :class="$style.imgOverlay" @click="scrollToDiscription">
           <ElIcon size="100px"><ArrowDown /></ElIcon>
         </div>
