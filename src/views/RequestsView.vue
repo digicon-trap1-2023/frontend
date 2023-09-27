@@ -21,10 +21,10 @@ const description = computed(() =>
 )
 
 watch(
-  () => requests !== undefined,
+  () => requests.value !== undefined,
   () => {
-    if (requests !== undefined) {
-      requests2.value = requests
+    if (requests.value !== undefined) {
+      requests2.value = requests.value
     }
   }
 )
