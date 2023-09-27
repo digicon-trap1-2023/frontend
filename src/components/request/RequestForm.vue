@@ -9,7 +9,8 @@ const tags = useFetchTags()
 
 const form = ref<RequestCreateSeed>({
   title: '',
-  description: ''
+  description: '',
+  tags: []
 })
 
 const handleSubmit = async () => {
@@ -17,12 +18,14 @@ const handleSubmit = async () => {
 
   const requestCreateSeed: RequestCreateSeed = {
     title: form.value.title,
-    description: form.value.description
+    description: form.value.description,
+    tags: form.value.tags
   }
   await createRequest(requestCreateSeed)
 
   form.value.title = ''
   form.value.description = ''
+  tags.value = []
 }
 </script>
 
@@ -49,7 +52,7 @@ const handleSubmit = async () => {
         default-first-option
         :reserve-keyword="false"
         placeholder="検索時に使用できるタグを選択"
-        v-model="form.description"
+        v-model="form.tags"
         size="large"
         :class="$style.tagSelect"
       >

@@ -17,4 +17,5 @@ export interface RequestWithDocuments {
 export interface RequestCreateSeed {
   title: string
   description: string
+  tags: string[]
 }
