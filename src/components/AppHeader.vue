@@ -29,21 +29,30 @@ watch(meData, () => {
     <div :class="$style.leftContainer">
       <div :class="$style.title">Comic DoQ</div>
       <nav :class="$style.nav">
-        <router-link to="/documents">
-          <el-button type="primary" link :disabled="route.path === '/documents'">
-            資料一覧
-          </el-button>
+        <router-link
+          to="/documents"
+          :class="$style.routerLink"
+          :data-is-here="route.path === '/documents'"
+        >
+          <el-button type="primary" link>資料一覧</el-button>
         </router-link>
-        <router-link to="/documents/new" v-if="role === 'reader'">
-          <el-button type="primary" link :disabled="route.path === '/documents/new'">
-            資料投稿
-          </el-button>
+        <router-link
+          to="/documents/new"
+          v-if="role === 'reader'"
+          :class="$style.routerLink"
+          :data-is-here="route.path === '/documents/new'"
+        >
+          <el-button type="primary" link>資料投稿</el-button>
         </router-link>
-        <router-link to="/requests">
-          <el-button type="primary" link :disabled="route.path === '/requests'">要望一覧</el-button>
+        <router-link
+          to="/requests"
+          :class="$style.routerLink"
+          :data-is-here="route.path === '/requests'"
+        >
+          <el-button type="primary" link>要望一覧</el-button>
         </router-link>
-        <router-link to="me">
-          <el-button type="primary" link :disabled="route.path === '/me'">マイページ</el-button>
+        <router-link to="me" :class="$style.routerLink" :data-is-here="route.path === '/me'">
+          <el-button type="primary" link>マイページ</el-button>
         </router-link>
       </nav>
     </div>
@@ -76,5 +85,8 @@ watch(meData, () => {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+.routerLink[data-is-here='true'] {
+  opacity: 0.5;
 }
 </style>
