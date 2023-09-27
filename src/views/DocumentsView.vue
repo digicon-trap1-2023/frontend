@@ -31,8 +31,6 @@ const handleSelectCurrentDocument = (id: string) => {
 </script>
 
 <template>
-  {{ currentModalDocumentId }}
-  {{ JSON.stringify(isModalOpen) }}
   <tag-selector @change="(e) => (tags = e)" />
   <div v-if="documents && !isValidating">
     <div v-masonry="1" transition-duration="0.3s" item-selector=".item" column-width="250">
