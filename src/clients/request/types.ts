@@ -3,6 +3,7 @@ export interface Request {
   title: string
   description: string
   created_by: string
+  tags: string[]
 }
 
 export interface RequestWithDocuments {

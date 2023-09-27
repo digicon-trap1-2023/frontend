@@ -5,7 +5,8 @@ const requestData: Request = {
   id: '1',
   title: 'example title',
   description: 'example description',
-  created_by: 'example user'
+  created_by: 'example user',
+  tags: ['tag1', 'tag2']
 }
 
 const requestWithDocumentsData: RequestWithDocuments = {

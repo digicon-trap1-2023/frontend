@@ -1,4 +1,4 @@
-import type { Role } from '@/stores/role'
+import type { Role } from '@/clients/user/types'
 import ky from 'ky'
 
 export const fetcher = {
