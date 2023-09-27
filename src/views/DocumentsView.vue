@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { useFetchDocuments, useFetchDocumentsByReader } from '@/clients/document/apis'
+import { useFetchDocuments } from '@/clients/document/apis'
 import DocumentCard from '@/components/Documents/DocumentCard.vue'
 import TagSelector from '@/components/Documents/TagSelector.vue'
-import { storeToRefs } from 'pinia'
-import { ref, computed, toRef, type Ref } from 'vue'
-import { useMeStore } from '@/stores/me'
-import type { DocumentQuerySeed } from '@/clients/document/types'
+import { ref, computed, toRef } from 'vue'
 import DocumentModal from '@/components/modal/DocumentModal.vue'
 import { parseQueryParam } from '@/lib/parseParam'
 import { useRoute } from 'vue-router'
@@ -13,18 +10,8 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const initialDocumentId = computed(() => parseQueryParam(route.query.documentId))
 
-const meStore = useMeStore()
-const { role } = storeToRefs(meStore)
-
-const useDocuments = (query: Ref<DocumentQuerySeed>) => {
-  if (role.value === 'writer') {
-    return useFetchDocuments(query)
-  }
-  return useFetchDocumentsByReader(query)
-}
-
 const tags = ref<string[]>()
-const { data: documents, isValidating } = useDocuments(toRef({ tags }))
+const { data: documents, isValidating } = useFetchDocuments(toRef({ tags }))
 
 const isModalOpen = ref(initialDocumentId.value ? true : false)
 const currentModalDocumentId = ref<string | null>(initialDocumentId.value ?? null)
