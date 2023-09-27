@@ -45,7 +45,7 @@ const toggleBookmark = async () => {
     <el-button
       circle
       :class="$style.starButton"
-      @click="toggleBookmark"
+      @click.stop="toggleBookmark"
       :is-stard="isBookmarked"
       :is-hoverd="isHoverd"
     >
