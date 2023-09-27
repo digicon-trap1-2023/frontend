@@ -13,7 +13,7 @@ export const useFetchRequests = () => {
 }
 export const useFetchRequestsWithDocuments = () => {
   const { data, error } = useSWRV<RequestWithDocuments[]>(
-    `${getApiOrigin()}/requests/withDocuments`,
+    `${getApiOrigin()}/requests/withDocument`,
     fetcher.get
   )
   if (error.value) throw new Error(error.value.message)

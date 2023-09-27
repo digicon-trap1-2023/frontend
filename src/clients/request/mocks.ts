@@ -24,7 +24,7 @@ export const requestHandlers = (apiOrigin: string): RestHandler[] => [
   rest.get(`${apiOrigin}/requests`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json<Request[]>([requestData]))
   ),
-  rest.get(`${apiOrigin}/requests/withDocuments`, (req, res, ctx) =>
+  rest.get(`${apiOrigin}/requests/withDocument`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json<RequestWithDocuments[]>([requestWithDocumentsData]))
   ),
   rest.post(`${apiOrigin}/requests`, async (req, res, ctx) => {
