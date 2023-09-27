@@ -62,9 +62,9 @@ const request = computed(() => requests.value.find((r) => r.id === requestId.val
     <h1>新規資料投稿</h1>
     <p :class="$style.description">新規資料を投稿します。</p>
     <p v-if="request !== undefined">
-      紐付ける要望タイトル: {{ request.Title }}
+      紐付ける要望タイトル: {{ request.title }}
       <br />
-      紐付ける要望詳細: {{ request.Description }}
+      紐付ける要望詳細: {{ request.description }}
     </p>
 
     <el-form :model="form" label-position="top" :class="$style.form" v-if="tags">
