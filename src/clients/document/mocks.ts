@@ -28,8 +28,8 @@ const documentsData: Document[] = Array(40)
     user_id: `${i}`,
     user_name: `digi-con食べ食べ委員会 v${i}`,
     related_request: null,
-    file_height: 100,
-    file_width: 100
+    file_height: table2[i % 5],
+    file_width: table1[i % 8]
   }))
 
 const documentDetailData: DocumentDetail = {
