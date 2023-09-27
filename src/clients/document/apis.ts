@@ -17,7 +17,7 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const { role } = storeToRefs(meStore)
 
   const res = useSWRV<Document[]>(
-    () => `${getApiOrigin()}/documents?${fetDocumentsUrlWithQuery(query.value)}`,
+    () => `${getApiOrigin()}/documents?${getDocumentsUrlWithQuery(query.value)}`,
     (url) => {
       return fetcher.get(url, role.value)
     }
@@ -26,7 +26,7 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   return res
 }
 
-const fetDocumentsUrlWithQuery = (query: DocumentQuerySeed) => {
+const getDocumentsUrlWithQuery = (query: DocumentQuerySeed) => {
   const searchParams = new URLSearchParams()
   if (query.tags && query.tags.length > 0) {
     searchParams.set('tags', query.tags.join(','))
