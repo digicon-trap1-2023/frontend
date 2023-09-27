@@ -20,7 +20,6 @@ const { data: documents } = useFetchDocuments(
     onlyBookmark
   })
 )
-
 const isModalOpen = ref(initialDocumentId.value ? true : false)
 const currentModalDocumentId = ref<string | null>(initialDocumentId.value ?? null)
 
