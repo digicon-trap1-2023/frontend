@@ -60,8 +60,8 @@ const request = computed(() => requests.value.find((r) => r.id === requestId.val
   <div v-if="role === 'writer'">権限がありません。</div>
   <div v-else>
     <h1>新規資料投稿</h1>
-    <p :class="$style.description">新規資料を投稿します。</p>
-    <p v-if="request !== undefined">
+    <p>新規資料を投稿します。</p>
+    <p v-if="request !== undefined" :class="$style.requestInfo">
       紐付ける要望タイトル: {{ request.title }}
       <br />
       紐付ける要望詳細: {{ request.description }}
@@ -84,11 +84,12 @@ const request = computed(() => requests.value.find((r) => r.id === requestId.val
 </template>
 
 <style module>
-.description {
-  margin-bottom: 2rem;
-}
 .form {
   width: 100%;
+  margin-top: 2rem;
+}
+.requestInfo {
+  margin-top: 0.5rem;
 }
 .formFields {
   display: flex;
