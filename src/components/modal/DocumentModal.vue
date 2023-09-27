@@ -126,18 +126,28 @@ const scrollToDiscription = async () => {
             </ElSpace>
           </div>
           <div :class="$style.buttonContainer" v-if="role === 'writer'">
-            <el-button :class="$style.button" @click="toggleBookmark" :is-enabled="isBookmarked">
+            <el-button
+              :class="$style.button"
+              @click="toggleBookmark"
+              :is-enabled="isBookmarked"
+              size="large"
+            >
               <template #icon>
-                <ElIcon :size="30" :class="$style.icon">
+                <ElIcon :size="28" :class="$style.icon">
                   <star-filled v-if="isBookmarked" />
                   <star v-else />
                 </ElIcon>
               </template>
               ブックマーク
             </el-button>
-            <el-button :class="$style.button" @click="toggleReferenced" :is-enabled="isReferenced">
+            <el-button
+              :class="$style.button"
+              @click="toggleReferenced"
+              :is-enabled="isReferenced"
+              size="large"
+            >
               <template #icon>
-                <ElIcon :size="30" :class="$style.icon">
+                <ElIcon :size="28" :class="$style.icon">
                   <CircleCheckFilled v-if="isReferenced" />
                   <Check v-else />
                 </ElIcon>
@@ -196,6 +206,8 @@ const scrollToDiscription = async () => {
 .description {
   padding: 24px;
   box-sizing: border-box;
+  display: flex;
+  gap: 8px;
 }
 
 .description div:has(.desctiptionCard),
@@ -217,6 +229,7 @@ const scrollToDiscription = async () => {
   justify-content: space-between;
   align-items: center;
   display: flex;
+  gap: 8px;
 }
 
 .avatar {
@@ -226,6 +239,7 @@ const scrollToDiscription = async () => {
 
 .button {
   width: 100%;
+  justify-content: start;
 }
 .button + .button {
   margin: 0;
@@ -238,7 +252,7 @@ const scrollToDiscription = async () => {
 .buttonContainer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .imgOverlay {
