@@ -6,8 +6,8 @@ export interface Document {
   title: string
   bookmarked: boolean
   referenced: boolean
-  userId: string
-  userName: string
+  user_id: string
+  user_name: string
   related_request: string | null
   referenced_users?: string[]
   file_height: number
@@ -21,7 +21,8 @@ export interface DocumentDetail extends Document {
 
 export interface DocumentQuerySeed {
   tags?: string[]
-  type?: 'bookmark' | 'referenced'
+  onlyBookmark?: boolean
+  onlyReferenced?: boolean
 }
 
 export interface DocumentCreateSeed {

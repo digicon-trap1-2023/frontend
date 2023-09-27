@@ -119,12 +119,12 @@ const avatarColor = randomColor()
             <ElSpace>
               <ElAvatar :class="$style.avatar" :style="{ backgroundColor: avatarColor }">
                 <span :class="$style.avatarName">
-                  {{ document.userName.slice(0, 1) }}
+                  {{ document.user_name.slice(0, 1) }}
                 </span>
               </ElAvatar>
               <div>
                 <div>
-                  <ElText :class="$style.text">{{ document.userName }}</ElText>
+                  <ElText :class="$style.text">{{ document.user_name }}</ElText>
                 </div>
                 <div>
                   <ElText :class="$style.text" size="large" tag="b">{{ document.title }}</ElText>

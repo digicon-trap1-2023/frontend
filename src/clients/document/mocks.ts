@@ -8,8 +8,8 @@ const documentData: Document = {
     'example document aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
   bookmarked: false,
   referenced: false,
-  userId: '1',
-  userName: 'digi-con食べ食べ委員会',
+  user_id: '1',
+  user_name: 'digi-con食べ食べ委員会',
   related_request: null,
   file_height: 100,
   file_width: 100
@@ -25,8 +25,8 @@ const documentsData: Document[] = Array(40)
     title: `${table1[i % 8]}x${table2[i % 5]}`,
     bookmarked: i % 7 === 0,
     referenced: 1 % 5 === 0,
-    userId: `${i}`,
-    userName: `digi-con食べ食べ委員会 v${i}`,
+    user_id: `${i}`,
+    user_name: `digi-con食べ食べ委員会 v${i}`,
     related_request: null,
     file_height: 100,
     file_width: 100
@@ -50,11 +50,20 @@ export const documentHandlers = (apiOrigin: string): RestHandler[] => [
     if (list) {
       return res(
         ctx.status(200),
-        ctx.json<Document[]>(documentsData.filter((v) => list.some((w) => w === v.id.slice(-1))))
+        ctx.json<Document[]>(
+          documentsData
+            .filter((v) => list.some((w) => w === v.id.slice(-1)))
+            .filter((v) => req.url.searchParams.get('type') !== 'bookmark' || v.bookmarked)
+        )
       )
     }
 
-    return res(ctx.status(200), ctx.json<Document[]>(documentsData))
+    return res(
+      ctx.status(200),
+      ctx.json<Document[]>(
+        documentsData.filter((v) => req.url.searchParams.get('type') !== 'bookmark' || v.bookmarked)
+      )
+    )
   }),
   rest.get(`${apiOrigin}/reader/documents`, (req, res, ctx) => {
     const list = req.url.searchParams
@@ -64,11 +73,14 @@ export const documentHandlers = (apiOrigin: string): RestHandler[] => [
     if (list) {
       return res(
         ctx.status(200),
-        ctx.json<Document[]>(documentsData.filter((v) => list.some((w) => w === v.id.slice(-1)))
-          .map((document, index) => ({
-          ...document,
-          referenced_users: index % 2 === 0 ? ['user1'] : []
-        })))
+        ctx.json<Document[]>(
+          documentsData
+            .filter((v) => list.some((w) => w === v.id.slice(-1)))
+            .map((document, index) => ({
+              ...document,
+              referenced_users: index % 2 === 0 ? ['user1'] : []
+            }))
+        )
       )
     }
 
