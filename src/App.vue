@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
+import { ElScrollbar } from 'element-plus'
 </script>
 
 <template>
   <div :class="$style.container">
-    <app-header />
-    <main :class="$style.pageContainer">
-      <RouterView />
-    </main>
+    <ElScrollbar>
+      <app-header />
+      <main :class="$style.pageContainer">
+        <RouterView />
+      </main>
+    </ElScrollbar>
   </div>
 </template>
 

@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { useFetchDocuments, useFetchDocumentsByReader } from '@/clients/document/apis'
+import { useFetchDocuments } from '@/clients/document/apis'
 import DocumentCard from '@/components/Documents/DocumentCard.vue'
 import TagSelector from '@/components/Documents/TagSelector.vue'
-import { storeToRefs } from 'pinia'
-import { ref, computed, toRef, type Ref } from 'vue'
-import { useMeStore } from '@/stores/me'
-import type { DocumentQuerySeed } from '@/clients/document/types'
+import { ref, computed, toRef } from 'vue'
 import DocumentModal from '@/components/modal/DocumentModal.vue'
 import { parseQueryParam } from '@/lib/parseParam'
 import { useRoute } from 'vue-router'
@@ -13,18 +10,8 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const initialDocumentId = computed(() => parseQueryParam(route.query.documentId))
 
-const meStore = useMeStore()
-const { role } = storeToRefs(meStore)
-
-const useDocuments = (query: Ref<DocumentQuerySeed>) => {
-  if (role.value === 'writer') {
-    return useFetchDocuments(query)
-  }
-  return useFetchDocumentsByReader(query)
-}
-
 const tags = ref<string[]>()
-const { data: documents, isValidating } = useDocuments(toRef({ tags }))
+const { data: documents } = useFetchDocuments(toRef({ tags }))
 
 const isModalOpen = ref(initialDocumentId.value ? true : false)
 const currentModalDocumentId = ref<string | null>(initialDocumentId.value ?? null)
@@ -38,38 +25,49 @@ const handleSelectCurrentDocument = (id: string) => {
 <template>
   <div>
     <tag-selector @change="(e) => (tags = e)" />
-    <div v-if="documents && !isValidating" :class="$style.documentList">
-      <div v-masonry="1" transition-duration="0.3s" item-selector=".item" column-width="250">
-        <div
-          v-masonry-tile
-          class="item"
-          v-for="item in documents"
-          :key="item.id"
-          :class="$style.card"
-        >
-          <button @click="handleSelectCurrentDocument(item.id)" :class="$style.button">
-            <document-card
-              :img-src="item.file"
-              :username="item.userName"
-              :title="item.title"
-              :is-bookmarked="item.bookmarked"
-              :id="item.id"
-            />
-          </button>
-        </div>
+
+    <div
+      v-if="documents"
+      :class="$style.documentList"
+      :key="JSON.stringify(documents)"
+      v-masonry="1"
+      transition-duration="0.3s"
+      item-selector=".item"
+      column-width="250"
+      fit-width="true"
+    >
+      <div
+        v-masonry-tile
+        class="item"
+        v-for="item in documents"
+        :key="item.id"
+        :class="$style.card"
+      >
+        <button @click="handleSelectCurrentDocument(item.id)" :class="$style.button">
+          <document-card
+            :img-src="item.file"
+            :username="item.userName"
+            :title="item.title"
+            :is-bookmarked="item.bookmarked"
+            :id="item.id"
+          />
+        </button>
       </div>
-      <document-modal
-        @closed="() => (currentModalDocumentId = null)"
-        v-if="isModalOpen && currentModalDocumentId"
-        v-model="isModalOpen"
-        :document-id="currentModalDocumentId"
-      />
     </div>
+    <document-modal
+      @closed="() => (currentModalDocumentId = null)"
+      v-if="isModalOpen && currentModalDocumentId"
+      v-model="isModalOpen"
+      :document-id="currentModalDocumentId"
+    />
   </div>
 </template>
 
 <style module>
 .documentList {
+  /* width: fit-content; */
+
+  margin: auto;
   margin-top: 20px;
 }
 .card {
