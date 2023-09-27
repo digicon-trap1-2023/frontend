@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { DocumentDetail } from '@/clients/document/types'
 import {
   ElDialog,
   ElAvatar,
@@ -21,15 +20,18 @@ import {
 } from '@/clients/document/apis'
 import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
+import { useFetchDocumentDetail } from '@/clients/document/apis'
 
 const props = defineProps<{
-  document: DocumentDetail
+  documentId: string
 }>()
+
+const document = useFetchDocumentDetail(props.documentId)
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
-const isBookmarked = ref(props.document.bookmarked)
-const isReferenced = ref(props.document.referenced)
+const isBookmarked = ref(document.value?.bookmarked ?? false)
+const isReferenced = ref(document.value?.referenced ?? false)
 
 const img = ref<HTMLImageElement>()
 const description = ref<HTMLDivElement>()
@@ -55,18 +57,18 @@ watch(
 
 const toggleBookmark = async () => {
   if (isBookmarked.value) {
-    await deleteBookmark(props.document.id)
+    await deleteBookmark(props.documentId)
   } else {
-    await postBookmark(props.document.id)
+    await postBookmark(props.documentId)
   }
   isBookmarked.value = !isBookmarked.value
 }
 
 const toggleReferenced = async () => {
   if (isReferenced.value) {
-    await deleteReferenced(props.document.id)
+    await deleteReferenced(props.documentId)
   } else {
-    await postReferenced(props.document.id)
+    await postReferenced(props.documentId)
   }
   isReferenced.value = !isReferenced.value
 }
@@ -81,7 +83,13 @@ const scrollToDiscription = async () => {
 </script>
 
 <template>
-  <ElDialog append-to-body lock-scroll :class="$style.modal" top="5vh">
+  <ElDialog
+    append-to-body
+    lock-scroll
+    :class="$style.modal"
+    top="5vh"
+    v-if="document !== undefined"
+  >
     <ElScrollbar
       height="100%"
       :wrap-class="$style.scrollbar"
@@ -90,7 +98,7 @@ const scrollToDiscription = async () => {
       ref="scroll"
     >
       <div :class="$style.imgContainer">
-        <img :src="props.document.file" :class="$style.img" ref="img" />
+        <img :src="document.file" :class="$style.img" ref="img" />
         <div :is-Show="scrollHeight === 0" :class="$style.imgOverlay" @click="scrollToDiscription">
           <ElIcon size="100px"><ArrowDown /></ElIcon>
         </div>
@@ -118,18 +126,28 @@ const scrollToDiscription = async () => {
             </ElSpace>
           </div>
           <div :class="$style.buttonContainer" v-if="role === 'writer'">
-            <el-button :class="$style.button" @click="toggleBookmark" :is-enabled="isBookmarked">
+            <el-button
+              :class="$style.button"
+              @click="toggleBookmark"
+              :is-enabled="isBookmarked"
+              size="large"
+            >
               <template #icon>
-                <ElIcon :size="30" :class="$style.icon">
+                <ElIcon :size="28" :class="$style.icon">
                   <star-filled v-if="isBookmarked" />
                   <star v-else />
                 </ElIcon>
               </template>
               ブックマーク
             </el-button>
-            <el-button :class="$style.button" @click="toggleReferenced" :is-enabled="isReferenced">
+            <el-button
+              :class="$style.button"
+              @click="toggleReferenced"
+              :is-enabled="isReferenced"
+              size="large"
+            >
               <template #icon>
-                <ElIcon :size="30" :class="$style.icon">
+                <ElIcon :size="28" :class="$style.icon">
                   <CircleCheckFilled v-if="isReferenced" />
                   <Check v-else />
                 </ElIcon>
@@ -188,6 +206,8 @@ const scrollToDiscription = async () => {
 .description {
   padding: 24px;
   box-sizing: border-box;
+  display: flex;
+  gap: 8px;
 }
 
 .description div:has(.desctiptionCard),
@@ -209,6 +229,7 @@ const scrollToDiscription = async () => {
   justify-content: space-between;
   align-items: center;
   display: flex;
+  gap: 8px;
 }
 
 .avatar {
@@ -218,6 +239,7 @@ const scrollToDiscription = async () => {
 
 .button {
   width: 100%;
+  justify-content: start;
 }
 .button + .button {
   margin: 0;
@@ -230,7 +252,7 @@ const scrollToDiscription = async () => {
 .buttonContainer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .imgOverlay {
