@@ -57,7 +57,7 @@ watch(meData, () => {
 <style module>
 .header {
   height: 64px;
-  background-color: #ffffff;
+  background-color: #fffef7;
   padding: 0 24px;
   display: flex;
   align-items: center;
