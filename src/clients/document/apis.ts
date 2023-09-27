@@ -19,16 +19,7 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const res = useSWRV<Document[]>(
     () => `${getApiOrigin()}/documents?${fetDocumentsUrlWithQuery(query.value)}`,
     (url) => {
-      // console.log(`origin: ${origin}, tags: ${query.tags}`)
-      // if (query.tags && query.tags.length > 0) {
-      //   searchParams.value.set('tags', query.tags.join(','))
-      // } else {
-      //   searchParams.value.delete('tags')
-      // }
-      // if (query.type) {
-      //   searchParams.value.set('type', query.type)
-      // }
-      return fetcher.get(url, role)
+      return fetcher.get(url, role.value)
     }
   )
   if (res.error.value) throw new Error(res.error.value.message)
