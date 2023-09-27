@@ -1,21 +1,19 @@
 <script setup lang="ts">
+import { useFetchTags } from '@/clients/tag/apis'
 import { ElSelectV2 } from 'element-plus'
 import { computed, ref } from 'vue'
 
 const emits = defineEmits<{ (e: 'change', tags: string[]): void }>()
 
-const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 const value = ref<string[]>([])
-const tags = Array.from({ length: 1000 }).map((_, idx) => ({
-  id: `Option${idx + 1}`,
-  name: `${initials[idx % 10]}${idx}`
-}))
+const tags = useFetchTags()
 
-const options = computed(() => tags.map((v) => ({ value: v.id, label: v.name })))
+const options = computed(() => tags.value?.map((v) => ({ value: v.id, label: v.name })))
 </script>
 
 <template>
   <ElSelectV2
+    v-if="options"
     v-model="value"
     filterable
     :options="options"
