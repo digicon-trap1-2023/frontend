@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RequestWithDocuments } from '@/clients/request/types'
-import { ElButton, ElCollapse, ElCollapseItem } from 'element-plus'
+import { ElButton, ElCollapse, ElCollapseItem, type CollapseModelValue } from 'element-plus'
 import { ref } from 'vue'
 import { ZoomIn } from '@element-plus/icons-vue'
 import DocumentModal from '@/components/modal/DocumentModal.vue'
@@ -11,9 +11,15 @@ interface Props {
 
 defineProps<Props>()
 
-const activeRequestNames = ref<string[]>([])
-const handleChangeActiveRequest = (val: string[]) => {
-  activeRequestNames.value = val
+const activeRequestNames = ref<CollapseModelValue>([])
+const handleChangeActiveRequest = (val: CollapseModelValue) => {
+  if (Array.isArray(val)) {
+    activeRequestNames.value = val
+  } else if (typeof val === 'string') {
+    activeRequestNames.value = [val]
+  } else {
+    activeRequestNames.value = [val.toString()]
+  }
 }
 
 const isModalOpen = ref(false)
