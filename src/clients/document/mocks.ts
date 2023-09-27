@@ -46,11 +46,20 @@ export const documentHandlers = (apiOrigin: string): RestHandler[] => [
     if (list) {
       return res(
         ctx.status(200),
-        ctx.json<Document[]>(documentsData.filter((v) => list.some((w) => w === v.id.slice(-1))))
+        ctx.json<Document[]>(
+          documentsData
+            .filter((v) => list.some((w) => w === v.id.slice(-1)))
+            .filter((v) => req.url.searchParams.get('type') !== 'bookmark' || v.bookmarked)
+        )
       )
     }
 
-    return res(ctx.status(200), ctx.json<Document[]>(documentsData))
+    return res(
+      ctx.status(200),
+      ctx.json<Document[]>(
+        documentsData.filter((v) => req.url.searchParams.get('type') !== 'bookmark' || v.bookmarked)
+      )
+    )
   }),
   rest.get(`${apiOrigin}/reader/documents`, (req, res, ctx) => {
     const list = req.url.searchParams
@@ -60,11 +69,14 @@ export const documentHandlers = (apiOrigin: string): RestHandler[] => [
     if (list) {
       return res(
         ctx.status(200),
-        ctx.json<Document[]>(documentsData.filter((v) => list.some((w) => w === v.id.slice(-1)))
-          .map((document, index) => ({
-          ...document,
-          referenced_users: index % 2 === 0 ? ['user1'] : []
-        })))
+        ctx.json<Document[]>(
+          documentsData
+            .filter((v) => list.some((w) => w === v.id.slice(-1)))
+            .map((document, index) => ({
+              ...document,
+              referenced_users: index % 2 === 0 ? ['user1'] : []
+            }))
+        )
       )
     }
 
