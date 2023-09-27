@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 import { ElForm, ElButton } from 'element-plus'
+import {useRequestStore} from '@/stores/request'
+import {storeToRefs} from 'pinia'
 
 import FileUploader from '@/components/newDocument/FileUploader.vue'
 import DocumentInfoForm from '@/components/newDocument/DocumentInfoForm.vue'
@@ -9,7 +11,6 @@ import { createDocument } from '@/clients/document/apis'
 
 import type { DocumentCreateSeed } from '@/clients/document/types'
 import { useMeStore } from '@/stores/me'
-import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 import { parseQueryParam } from '@/lib/parseParam'
 
@@ -18,6 +19,8 @@ const router = useRouter()
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
+const requestStore = useRequestStore()
+const { requests } = storeToRefs(requestStore)
 
 const form = ref<DocumentCreateSeed>({
   title: '',
@@ -48,6 +51,9 @@ const handleSubmit = async () => {
   await createDocument(documentCreateSeed)
   router.push('/documents')
 }
+
+cosnt requestId= computed(() => parseQueryParam(route.query.requestId))
+const request= computed(() => requests.value.find((r) => r.id === requestId.value))
 </script>
 
 <template>
@@ -55,6 +61,12 @@ const handleSubmit = async () => {
   <div v-else>
     <h1>新規資料投稿</h1>
     <p :class="$style.description">新規資料を投稿します。</p>
+    <p v-if="request !== undefined">
+      紐付ける要望タイトル: {{ request.Title }}
+      <br />
+      紐付ける要望詳細: {{ request.Description }}
+    </p>
+
     <el-form :model="form" label-position="top" :class="$style.form" v-if="tags">
       <div :class="$style.formFields">
         <file-uploader

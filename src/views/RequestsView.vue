@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { useFetchRequests } from '@/clients/request/apis'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import RequestForm from '@/components/request/RequestForm.vue'
 import RequestList from '@/components/request/RequestList.vue'
 import { useMeStore } from '@/stores/me'
+import { useRequestStore } from '@/stores/request'
 import { storeToRefs } from 'pinia'
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
+const requestStore = useRequestStore()
+const { requests: requests2 } = storeToRefs(requestStore)
 
 const requests = useFetchRequests()
 
@@ -15,6 +18,15 @@ const description = computed(() =>
   role.value === 'writer'
     ? 'ここでは作家側から資料の要望を投稿することができます。'
     : 'ここでは作家の要望の確認と、それに沿った資料を投稿することができます。'
+)
+
+watch(
+  () => requests !== undefined,
+  () => {
+    if (requests !== undefined) {
+      requests2.value = requests
+    }
+  }
 )
 </script>
 
