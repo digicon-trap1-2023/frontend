@@ -69,6 +69,9 @@ const avatarColor = randomColor()
   display: flex;
   gap: 12px;
 }
+.listItem:not(:last-child) {
+  margin-bottom: 2rem;
+}
 .header {
   display: flex;
   justify-content: space-between;

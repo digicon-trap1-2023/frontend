@@ -4,6 +4,7 @@ import { ElForm, ElFormItem, ElInput, ElButton, ElSelect, ElOption } from 'eleme
 import type { RequestCreateSeed } from '@/clients/request/types'
 import { createRequest } from '@/clients/request/apis'
 import { useFetchTags } from '@/clients/tag/apis'
+import { createTags } from '@/clients/tag/apis'
 
 const tags = useFetchTags()
 
@@ -14,12 +15,16 @@ const form = ref<RequestCreateSeed>({
 })
 
 const handleSubmit = async () => {
-  if (!form.value.description || !form.value.title) return
+  if (!form.value.description || !form.value.title || !tags.value) return
+  const newTags = form.value.tags.filter((tag) => !tags.value!.some((t) => t.id === tag))
+  const existingTags = form.value.tags.filter((tag) => tags.value!.some((t) => t.id === tag))
+  const createdTags = await createTags(newTags)
+  existingTags.push(...createdTags.map((tag) => tag.id))
 
   const requestCreateSeed: RequestCreateSeed = {
     title: form.value.title,
     description: form.value.description,
-    tags: form.value.tags
+    tags: existingTags
   }
   await createRequest(requestCreateSeed)
 
