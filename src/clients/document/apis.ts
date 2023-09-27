@@ -31,8 +31,8 @@ const fetDocumentsUrlWithQuery = (query: DocumentQuerySeed) => {
   if (query.tags && query.tags.length > 0) {
     searchParams.set('tags', query.tags.join(','))
   }
-  if (query.type) {
-    searchParams.set('type', query.type)
+  if (query.onlyBookmark) {
+    searchParams.set('type', 'bookmark')
   }
   return searchParams.toString()
 }
@@ -43,7 +43,7 @@ export const useFetchDocumentsByReader = (query: Ref<DocumentQuerySeed>) => {
   const { role } = storeToRefs(meStore)
 
   const res = useSWRV<Document[]>(
-    () => [`${getApiOrigin()}/reader/documents`, query.value.tags, query.value.type],
+    () => [`${getApiOrigin()}/reader/documents`, query.value.tags, query.value.onlyBookmark],
     (origin, tags, type) => {
       if (tags && tags.length > 0) {
         searchParams.value.set('tags', tags.join(','))

@@ -19,7 +19,7 @@ export interface DocumentDetail extends Document {
 
 export interface DocumentQuerySeed {
   tags?: string[]
-  type?: 'bookmark' | 'referenced'
+  onlyBookmark?: boolean
 }
 
 export interface DocumentCreateSeed {

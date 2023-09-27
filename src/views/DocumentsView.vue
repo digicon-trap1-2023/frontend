@@ -6,12 +6,20 @@ import { ref, computed, toRef } from 'vue'
 import DocumentModal from '@/components/modal/DocumentModal.vue'
 import { parseQueryParam } from '@/lib/parseParam'
 import { useRoute } from 'vue-router'
+import { ElButton, ElIcon } from 'element-plus'
+import { Star, StarFilled } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const initialDocumentId = computed(() => parseQueryParam(route.query.documentId))
 
 const tags = ref<string[]>()
-const { data: documents } = useFetchDocuments(toRef({ tags }))
+const onlyBookmark = ref(false)
+const { data: documents } = useFetchDocuments(
+  toRef({
+    tags,
+    onlyBookmark
+  })
+)
 
 const isModalOpen = ref(initialDocumentId.value ? true : false)
 const currentModalDocumentId = ref<string | null>(initialDocumentId.value ?? null)
@@ -26,6 +34,19 @@ const handleSelectCurrentDocument = (id: string) => {
   <div>
     <div :class="$style.tools">
       <tag-selector @change="(e) => (tags = e)" />
+      <el-button
+        circle
+        :class="$style.starButton"
+        @click.stop="onlyBookmark = !onlyBookmark"
+        :is-stard="onlyBookmark"
+      >
+        <template #icon>
+          <ElIcon :size="24">
+            <star-filled v-if="onlyBookmark" />
+            <star v-else />
+          </ElIcon>
+        </template>
+      </el-button>
     </div>
 
     <div
@@ -90,5 +111,18 @@ const handleSelectCurrentDocument = (id: string) => {
 
 .tools {
   display: flex;
+  gap: 12px;
+}
+
+.starButton {
+  height: 40px;
+  width: 40px;
+}
+.starButton[is-stard='true'] {
+  opacity: 1;
+  color: var(--el-button-hover-text-color);
+  border-color: var(--el-button-hover-border-color);
+  background-color: var(--el-button-hover-bg-color);
+  outline: 0;
 }
 </style>
