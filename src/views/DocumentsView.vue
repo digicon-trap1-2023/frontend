@@ -73,5 +73,7 @@ const handleSelectCurrentDocument = (id: string) => {
   padding: 0;
   cursor: pointer;
   width: 100%;
+  height: 100%;
+  text-align: left;
 }
 </style>
