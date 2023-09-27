@@ -6,8 +6,8 @@ export interface Document {
   title: string
   bookmarked: boolean
   referenced: boolean
-  userId: string
-  userName: string
+  user_id: string
+  user_name: string
   related_request: string | null
   referenced_users?: string[]
 }

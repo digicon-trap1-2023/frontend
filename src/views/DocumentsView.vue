@@ -68,7 +68,7 @@ const handleSelectCurrentDocument = (id: string) => {
         <button @click="handleSelectCurrentDocument(item.id)" :class="$style.button">
           <document-card
             :img-src="item.file"
-            :username="item.userName"
+            :username="item.user_name"
             :title="item.title"
             :is-bookmarked="item.bookmarked"
             :id="item.id"
