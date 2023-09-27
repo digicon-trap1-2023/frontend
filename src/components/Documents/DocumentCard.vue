@@ -35,7 +35,7 @@ const avatarColor = randomColor()
 
 <template>
   <el-card :body-class="$style.card" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
-    <img :src="props.imgSrc" :class="$style.image" :width="width" :height="height" />
+    <img :src="props.imgSrc" :class="$style.image" />
     <div :class="$style.description" :is-hoverd="isHoverd">
       <ElAvatar :style="{ backgroundColor: avatarColor }">
         <span :class="$style.avatarName">
@@ -78,7 +78,7 @@ const avatarColor = randomColor()
 .image {
   width: 100%;
   display: block;
-  /* aspect-ratio: 1; */
+  aspect-ratio: v-bind(width) / v-bind(height);
 }
 
 .description {
