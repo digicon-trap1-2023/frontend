@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Request } from '@/clients/request/types'
-import { ElCard, ElButton, ElAvatar } from 'element-plus'
+import { ElCard, ElButton, ElAvatar, ElSpace, ElTag } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 import { deleteRequest } from '@/clients/request/apis'
 import { useMeStore } from '@/stores/me'
@@ -30,7 +30,7 @@ const handleDeleteRequest = async (requestId: string) => {
         <div :class="$style.header">
           <span :class="$style.username">{{ request.created_by }}</span>
           <el-button
-            v-if="role === 'writer' && request.created_by === me.name"
+            v-if="role === 'writer' && request.created_by === me?.name"
             type="danger"
             :icon="Delete"
             @click="handleDeleteRequest(request.id)"
@@ -48,6 +48,9 @@ const handleDeleteRequest = async (requestId: string) => {
           <p :class="$style.description">
             {{ request.description }}
           </p>
+          <ElSpace :class="$style.tags">
+            <ElTag v-for="tag in request.tags" :key="tag">{{ tag }}</ElTag>
+          </ElSpace>
         </el-card>
       </div>
     </li>
@@ -83,5 +86,8 @@ const handleDeleteRequest = async (requestId: string) => {
   white-space: pre-wrap;
   margin-block-start: 0;
   margin-block-end: 0;
+}
+.tags {
+  margin-top: 1.5rem;
 }
 </style>

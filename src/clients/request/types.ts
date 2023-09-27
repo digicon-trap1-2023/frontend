@@ -3,6 +3,7 @@ export interface Request {
   title: string
   description: string
   created_by: string
+  tags: string[]
 }
 
 export interface RequestWithDocuments {
@@ -17,4 +18,5 @@ export interface RequestWithDocuments {
 export interface RequestCreateSeed {
   title: string
   description: string
+  tags: string[]
 }

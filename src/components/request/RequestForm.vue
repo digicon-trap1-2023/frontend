@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElButton, ElSelect, ElOption } from 'element-plus'
 import type { RequestCreateSeed } from '@/clients/request/types'
 import { createRequest } from '@/clients/request/apis'
+import { useFetchTags } from '@/clients/tag/apis'
+
+const tags = useFetchTags()
 
 const form = ref<RequestCreateSeed>({
   title: '',
-  description: ''
+  description: '',
+  tags: []
 })
 
 const handleSubmit = async () => {
@@ -14,12 +18,14 @@ const handleSubmit = async () => {
 
   const requestCreateSeed: RequestCreateSeed = {
     title: form.value.title,
-    description: form.value.description
+    description: form.value.description,
+    tags: form.value.tags
   }
   await createRequest(requestCreateSeed)
 
   form.value.title = ''
   form.value.description = ''
+  tags.value = []
 }
 </script>
 
@@ -38,6 +44,21 @@ const handleSubmit = async () => {
         :autosize="{ minRows: 4 }"
       />
     </el-form-item>
+    <el-form-item label="タグ" v-if="tags !== undefined">
+      <el-select
+        multiple
+        filterable
+        allow-create
+        default-first-option
+        :reserve-keyword="false"
+        placeholder="検索時に使用できるタグを選択"
+        v-model="form.tags"
+        size="large"
+        :class="$style.tagSelect"
+      >
+        <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id" />
+      </el-select>
+    </el-form-item>
     <div :class="$style.buttonContainer">
       <el-button type="primary" @click="handleSubmit">送信する</el-button>
     </div>
@@ -47,5 +68,8 @@ const handleSubmit = async () => {
 <style module>
 .buttonContainer {
   text-align: right;
+}
+.tagSelect {
+  width: 100%;
 }
 </style>
