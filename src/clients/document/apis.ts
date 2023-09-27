@@ -13,26 +13,28 @@ import { storeToRefs } from 'pinia'
 import { type Ref, ref } from 'vue'
 
 export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
-  const searchParams = ref(new URLSearchParams())
   const meStore = useMeStore()
   const { role } = storeToRefs(meStore)
 
   const res = useSWRV<Document[]>(
-    () => [`${getApiOrigin()}/documents`, query.value.tags, query.value.type],
-    (origin, tags, type) => {
-      if (tags && tags.length > 0) {
-        searchParams.value.set('tags', tags.join(','))
-      } else {
-        searchParams.value.delete('tags')
-      }
-      if (type) {
-        searchParams.value.set('type', type)
-      }
-      return fetcher.getWithQuery(origin, searchParams.value, role.value)
+    () => `${getApiOrigin()}/documents?${fetDocumentsUrlWithQuery(query.value)}`,
+    (url) => {
+      return fetcher.get(url, role.value)
     }
   )
   if (res.error.value) throw new Error(res.error.value.message)
   return res
+}
+
+const fetDocumentsUrlWithQuery = (query: DocumentQuerySeed) => {
+  const searchParams = new URLSearchParams()
+  if (query.tags && query.tags.length > 0) {
+    searchParams.set('tags', query.tags.join(','))
+  }
+  if (query.type) {
+    searchParams.set('type', query.type)
+  }
+  return searchParams.toString()
 }
 
 export const useFetchDocumentsByReader = (query: Ref<DocumentQuerySeed>) => {
