@@ -7,6 +7,7 @@ export interface Request {
 
 export interface RequestWithDocuments {
   id: string
+  title: string
   documents: {
     id: string
     title: string
