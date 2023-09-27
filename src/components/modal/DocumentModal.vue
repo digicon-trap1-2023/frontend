@@ -21,6 +21,7 @@ import {
 import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
 import { useFetchDocumentDetail } from '@/clients/document/apis'
+import { randomColor } from '@/lib/random'
 
 const props = defineProps<{
   documentId: string
@@ -80,6 +81,8 @@ const scrollToDiscription = async () => {
     })
   }
 }
+
+const avatarColor = randomColor()
 </script>
 
 <template>
@@ -114,9 +117,9 @@ const scrollToDiscription = async () => {
         <div :class="$style.title">
           <div>
             <ElSpace>
-              <ElAvatar :class="$style.avatar">
+              <ElAvatar :class="$style.avatar" :style="{ backgroundColor: avatarColor }">
                 <span :class="$style.avatarName">
-                  {{ document.userName.slice(0,1) }}
+                  {{ document.userName.slice(0, 1) }}
                 </span>
               </ElAvatar>
               <div>

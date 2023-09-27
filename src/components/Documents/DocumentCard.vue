@@ -3,6 +3,7 @@ import { ElCard, ElButton, ElIcon, ElAvatar, ElText } from 'element-plus'
 import { Star, StarFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { deleteBookmark, postBookmark } from '@/clients/document/apis'
+import { randomColor } from '@/lib/random'
 
 const props = defineProps<{
   imgSrc: string
@@ -26,16 +27,18 @@ const toggleBookmark = async () => {
   }
   isBookmarked.value = !isBookmarked.value
 }
+
+const avatarColor = randomColor()
 </script>
 
 <template>
   <el-card :body-class="$style.card" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
     <img :src="props.imgSrc" :class="$style.image" />
     <div :class="$style.description" :is-hoverd="isHoverd">
-      <ElAvatar>
-          <span :class="$style.avatarName">
-            {{ username.slice(0,1) }}
-          </span>
+      <ElAvatar :style="{ backgroundColor: avatarColor }">
+        <span :class="$style.avatarName">
+          {{ username.slice(0, 1) }}
+        </span>
       </ElAvatar>
       <div>
         <div>
