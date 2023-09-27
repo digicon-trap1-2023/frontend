@@ -10,5 +10,6 @@ const { data: documents } = useFetchDocumentsByReader(
 </script>
 
 <template>
+  <p>ここでは作家に使われた資料の一覧を確認できます。</p>
   <refereced-list :documents="documents" v-if="documents !== undefined" />
 </template>

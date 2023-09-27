@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ElTabs, ElTabPane } from 'element-plus'
-import RequestList from '@/components/myPage/RequestList.vue'
+import RequestWithDocumentsList from '@/components/myPage/RequestWithDocumentsList.vue'
 import ReferecedList from '@/components/myPage/ReferecedList.vue'
 import { useFetchDocuments } from '@/clients/document/apis'
 import type { DocumentQuerySeed } from '@/clients/document/types'
@@ -18,7 +18,7 @@ const requests = useFetchRequestsWithDocuments()
 <template>
   <el-tabs v-model="activeTab">
     <el-tab-pane label="要望に対する資料" name="request">
-      <request-list :requests="requests" v-if="requests !== undefined" />
+      <request-with-documents-list :requests="requests" v-if="requests !== undefined" />
     </el-tab-pane>
     <el-tab-pane label="使った資料" name="referenced">
       <refereced-list :documents="documents" v-if="documents !== undefined" />
