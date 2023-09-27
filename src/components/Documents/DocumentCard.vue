@@ -32,7 +32,11 @@ const toggleBookmark = async () => {
   <el-card :body-class="$style.card" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
     <img :src="props.imgSrc" :class="$style.image" />
     <div :class="$style.description" :is-hoverd="isHoverd">
-      <ElAvatar></ElAvatar>
+      <ElAvatar>
+          <span :class="$style.avatarName">
+            {{ username.slice(0,1) }}
+          </span>
+      </ElAvatar>
       <div>
         <div>
           <ElText :class="$style.text">{{ username }}</ElText>
@@ -110,5 +114,9 @@ const toggleBookmark = async () => {
   border-color: var(--el-button-hover-border-color);
   background-color: var(--el-button-hover-bg-color);
   outline: 0;
+}
+.avatarName {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 </style>

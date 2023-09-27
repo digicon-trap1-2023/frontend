@@ -114,7 +114,11 @@ const scrollToDiscription = async () => {
         <div :class="$style.title">
           <div>
             <ElSpace>
-              <ElAvatar :class="$style.avatar"></ElAvatar>
+              <ElAvatar :class="$style.avatar">
+                <span :class="$style.avatarName">
+                  {{ document.userName.slice(0,1) }}
+                </span>
+              </ElAvatar>
               <div>
                 <div>
                   <ElText :class="$style.text">{{ document.userName }}</ElText>
@@ -273,5 +277,9 @@ const scrollToDiscription = async () => {
 }
 .icon {
   margin-right: 8px;
+}
+.avatarName {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 </style>
