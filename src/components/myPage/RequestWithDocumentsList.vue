@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { RequestWithDocuments } from '@/clients/request/types'
+import { ElButton } from 'element-plus'
 
 interface Props {
   requests: RequestWithDocuments[]
@@ -15,7 +16,9 @@ defineProps<Props>()
       <ul>
         <li v-for="document in request.documents" :key="document.id">
           <router-link :to="`/documents?documentId=${document.id}`">
-            {{ document.title }}
+            <el-button type="primary" link :class="$style.button">
+              {{ document.title }}
+            </el-button>
           </router-link>
         </li>
       </ul>
@@ -23,4 +26,8 @@ defineProps<Props>()
   </ul>
 </template>
 
-<style module></style>
+<style module>
+.button{
+  font-size: 16px;
+}
+</style>

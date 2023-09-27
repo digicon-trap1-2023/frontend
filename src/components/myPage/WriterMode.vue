@@ -20,7 +20,7 @@ const requests = useFetchRequestsWithDocuments()
     <el-tab-pane label="要望に対する資料" name="request">
       <request-with-documents-list :requests="requests" v-if="requests !== undefined" />
     </el-tab-pane>
-    <el-tab-pane label="使った資料" name="referenced">
+    <el-tab-pane label="参考にした資料" name="referenced">
       <refereced-list :documents="documents" v-if="documents !== undefined" />
     </el-tab-pane>
   </el-tabs>
