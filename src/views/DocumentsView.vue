@@ -3,7 +3,7 @@ import { useFetchDocuments, useFetchDocumentsByReader } from '@/clients/document
 import DocumentCard from '@/components/Documents/DocumentCard.vue'
 import TagSelector from '@/components/Documents/TagSelector.vue'
 import { storeToRefs } from 'pinia'
-import { ref, computed, toRef, type Ref } from 'vue'
+import { ref, computed, toRef, type Ref, watch } from 'vue'
 import { useMeStore } from '@/stores/me'
 import type { DocumentQuerySeed } from '@/clients/document/types'
 import DocumentModal from '@/components/modal/DocumentModal.vue'
