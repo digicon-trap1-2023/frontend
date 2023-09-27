@@ -24,7 +24,9 @@ const handleSelectCurrentDocument = (id: string) => {
 
 <template>
   <div>
-    <tag-selector @change="(e) => (tags = e)" />
+    <div :class="$style.tools">
+      <tag-selector @change="(e) => (tags = e)" />
+    </div>
 
     <div
       v-if="documents"
@@ -84,5 +86,9 @@ const handleSelectCurrentDocument = (id: string) => {
   width: 100%;
   height: 100%;
   text-align: left;
+}
+
+.tools {
+  display: flex;
 }
 </style>
