@@ -10,7 +10,7 @@ import { toRef, ref } from 'vue'
 const activeTab = ref<'referenced' | 'request'>('request')
 
 const { data: documents } = useFetchDocuments(
-  toRef({ type: 'referenced' } satisfies DocumentQuerySeed)
+  toRef({ onlyReferenced: true } satisfies DocumentQuerySeed)
 )
 const requests = useFetchRequestsWithDocuments()
 </script>
