@@ -6,6 +6,7 @@ import { ElButton, ElCard, ElAvatar, ElTable, ElTableColumn } from 'element-plus
 import DocumentModal from '@/components/modal/DocumentModal.vue'
 import { ref, computed } from 'vue'
 import { ZoomIn } from '@element-plus/icons-vue'
+import { randomColor } from '@/lib/random'
 
 interface Props {
   documents: Document[]
@@ -30,6 +31,8 @@ const tableData = computed(() =>
     writers: document.referenced_users
   }))
 )
+
+const avatarColor = randomColor()
 </script>
 
 <template>
@@ -49,7 +52,11 @@ const tableData = computed(() =>
       </el-table-column>
       <el-table-column prop="writers" label="作家">
         <template #default="{ row }">
-          <el-avatar v-for="writer in row.writers" :key="writer">
+          <el-avatar
+            v-for="writer in row.writers"
+            :key="writer"
+            :style="{ backgroundColor: avatarColor }"
+          >
             <span :class="$style.avatarName">{{ writer.slice(0, 1) }}</span>
           </el-avatar>
         </template>

@@ -5,6 +5,7 @@ import { Delete } from '@element-plus/icons-vue'
 import { deleteRequest } from '@/clients/request/apis'
 import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
+import { randomColor } from '@/lib/random'
 
 interface Props {
   requests: Request[]
@@ -18,12 +19,14 @@ const { me, role } = storeToRefs(meStore)
 const handleDeleteRequest = async (requestId: string) => {
   await deleteRequest(requestId)
 }
+
+const avatarColor = randomColor()
 </script>
 
 <template>
   <ul :class="$style.list">
     <li v-for="request in requests" :key="request.id" :class="$style.listItem">
-      <el-avatar size="large">
+      <el-avatar size="large" :style="{ backgroundColor: avatarColor }">
         <span :class="$style.avatarName">{{ request.created_by.slice(0, 1) }}</span>
       </el-avatar>
       <div :class="$style.cardContainer">
