@@ -17,7 +17,10 @@ export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const { role } = storeToRefs(meStore)
 
   const res = useSWRV<Document[]>(
-    () => `${getApiOrigin()}/documents?${getDocumentsUrlWithQuery(query.value)}`,
+    () =>
+      `${getApiOrigin()}${
+        role.value === 'reader' ? '/reader' : ''
+      }/documents?${getDocumentsUrlWithQuery(query.value)}`,
     (url) => {
       return fetcher.get(url, role.value)
     }
@@ -33,6 +36,9 @@ const getDocumentsUrlWithQuery = (query: DocumentQuerySeed) => {
   }
   if (query.onlyBookmark) {
     searchParams.set('type', 'bookmark')
+  }
+  if (query.onlyReferenced) {
+    searchParams.set('type', 'referenced')
   }
   return searchParams.toString()
 }

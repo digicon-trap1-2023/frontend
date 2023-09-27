@@ -20,6 +20,7 @@ export interface DocumentDetail extends Document {
 export interface DocumentQuerySeed {
   tags?: string[]
   onlyBookmark?: boolean
+  onlyReferenced?: boolean
 }
 
 export interface DocumentCreateSeed {
