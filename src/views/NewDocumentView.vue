@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref,computed } from 'vue'
+import { ref, computed } from 'vue'
 import { ElForm, ElButton } from 'element-plus'
-import {useRequestStore} from '@/stores/request'
-import {storeToRefs} from 'pinia'
+import { useRequestStore } from '@/stores/request'
+import { storeToRefs } from 'pinia'
 
 import FileUploader from '@/components/newDocument/FileUploader.vue'
 import DocumentInfoForm from '@/components/newDocument/DocumentInfoForm.vue'
@@ -52,8 +52,8 @@ const handleSubmit = async () => {
   router.push('/documents')
 }
 
-cosnt requestId= computed(() => parseQueryParam(route.query.requestId))
-const request= computed(() => requests.value.find((r) => r.id === requestId.value))
+const requestId = computed(() => parseQueryParam(route.query.requestId))
+const request = computed(() => requests.value.find((r) => r.id === requestId.value))
 </script>
 
 <template>
