@@ -22,7 +22,7 @@ const documents: { id: string; title: string }[] = [
       </template>
       <ul>
         <li v-for="document in documents" :key="document.id">
-          <router-link :to="`/documents/documentId=${document.id}`">
+          <router-link :to="`/documents/?documentId=${document.id}`">
             {{ document.title }}
           </router-link>
         </li>

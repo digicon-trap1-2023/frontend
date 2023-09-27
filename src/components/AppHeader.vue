@@ -95,7 +95,7 @@ watch(meData, () => {
 .routerLink[data-is-here='true'] {
   font-weight: bold;
   color: #409eff;
-  background-color: #c9e4ff;
+  background-color: #d5e9fc;
   padding: 2px 8px;
   border-radius: 4px;
 }
