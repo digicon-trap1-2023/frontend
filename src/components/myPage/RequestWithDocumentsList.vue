@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import type { RequestWithDocuments } from '@/clients/request/types'
-import { ElButton } from 'element-plus'
+import { ElButton, ElCollapse, ElCollapseItem } from 'element-plus'
+import { ref } from 'vue'
 
 interface Props {
   requests: RequestWithDocuments[]
 }
 
 defineProps<Props>()
+
+const activeRequestNames = ref<string[]>([])
+const handleChangeActiveRequest = (val: string[]) => {
+  activeRequestNames.value = val
+}
 </script>
 
 <template>
-  <ul>
-    <li v-for="request in requests" :key="request.id">
-      {{ request.title }}
+  <el-collapse v-model="activeRequestNames" @change="handleChangeActiveRequest">
+    <el-collapse-item :name="request.id" v-for="request in requests" :key="request.id">
+      <template #title>
+        <p :class="$style.title">{{ request.title }}</p>
+      </template>
       <ul>
         <li v-for="document in request.documents" :key="document.id">
           <router-link :to="`/documents?documentId=${document.id}`">
@@ -22,12 +30,15 @@ defineProps<Props>()
           </router-link>
         </li>
       </ul>
-    </li>
-  </ul>
+    </el-collapse-item>
+  </el-collapse>
 </template>
 
 <style module>
-.button{
+.button {
+  font-size: 16px;
+}
+.title {
   font-size: 16px;
 }
 </style>
