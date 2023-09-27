@@ -51,8 +51,11 @@ watch(meData, () => {
         >
           <el-button type="primary" link>要望一覧</el-button>
         </router-link>
-        <router-link to="me" :class="$style.routerLink" :data-is-here="route.path === '/me'">
+        <router-link to="/me" :class="$style.routerLink" :data-is-here="route.path === '/me'">
           <el-button type="primary" link>マイページ</el-button>
+        </router-link>
+        <router-link to="/book" :class="$style.routerLink" :data-is-here="route.path === '/book'">
+          <el-button type="primary" link>参考にした資料(ビューワー)</el-button>
         </router-link>
       </nav>
     </div>
@@ -86,7 +89,14 @@ watch(meData, () => {
   align-items: center;
   gap: 16px;
 }
+.routerLink {
+  padding: 0 8px;
+}
 .routerLink[data-is-here='true'] {
-  opacity: 0.5;
+  font-weight: bold;
+  color: #409eff;
+  background-color: #c9e4ff;
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 </style>

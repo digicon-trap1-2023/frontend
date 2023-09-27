@@ -3,10 +3,15 @@ import { useFetchDocuments, useFetchDocumentsByReader } from '@/clients/document
 import DocumentCard from '@/components/Documents/DocumentCard.vue'
 import TagSelector from '@/components/Documents/TagSelector.vue'
 import { storeToRefs } from 'pinia'
-import { ref, toRef, type Ref } from 'vue'
+import { ref, computed, toRef, type Ref } from 'vue'
 import { useMeStore } from '@/stores/me'
 import type { DocumentQuerySeed } from '@/clients/document/types'
 import DocumentModal from '@/components/modal/DocumentModal.vue'
+import { parseQueryParam } from '@/lib/parseParam'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const initialDocumentId = computed(() => parseQueryParam(route.query.documentId))
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
@@ -21,8 +26,8 @@ const useDocuments = (query: Ref<DocumentQuerySeed>) => {
 const tags = ref<string[]>()
 const { data: documents, isValidating } = useDocuments(toRef({ tags }))
 
-const isModalOpen = ref(false)
-const currentModalDocumentId = ref<string | null>(null)
+const isModalOpen = ref(initialDocumentId.value ? true : false)
+const currentModalDocumentId = ref<string | null>(initialDocumentId.value ?? null)
 
 const handleSelectCurrentDocument = (id: string) => {
   currentModalDocumentId.value = id
@@ -54,6 +59,7 @@ const handleSelectCurrentDocument = (id: string) => {
         </div>
       </div>
       <document-modal
+        @closed="() => (currentModalDocumentId = null)"
         v-if="isModalOpen && currentModalDocumentId"
         v-model="isModalOpen"
         :document-id="currentModalDocumentId"

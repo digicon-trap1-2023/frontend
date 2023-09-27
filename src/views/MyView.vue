@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
-import WriterTabPane from '@/components/myPage/WriterTabPane.vue'
-import ReaderTabPane from '@/components/myPage/ReaderTabPane.vue'
+import WriterMode from '@/components/myPage/WriterMode.vue'
+import ReaderMode from '@/components/myPage/ReaderMode.vue'
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
@@ -11,8 +11,8 @@ const { role } = storeToRefs(meStore)
 <template>
   <div>
     <h1>マイページ</h1>
-    <writer-tab-pane v-if="role === 'writer'" />
-    <reader-tab-pane v-else />
+    <writer-mode v-if="role === 'writer'" />
+    <reader-mode v-else />
   </div>
 </template>
 

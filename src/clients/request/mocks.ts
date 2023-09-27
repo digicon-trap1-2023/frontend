@@ -10,10 +10,11 @@ const requestData: Request = {
 
 const requestWithDocumentsData: RequestWithDocuments = {
   id: '1',
+  title: 'example request title',
   documents: [
     {
       id: '1',
-      title: 'example title'
+      title: 'example document title'
     }
   ]
 }
