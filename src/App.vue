@@ -1,34 +1,11 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { ElSwitch } from 'element-plus'
-import { storeToRefs } from 'pinia'
-import { useMeStore } from '@/stores/me'
-import { computed, watch } from 'vue'
-import { useFetchMe } from '@/clients/user/apis'
-
-const meData = useFetchMe()
-
-const meStore = useMeStore()
-const { me, role } = storeToRefs(meStore)
-
-const roleCalc = computed({
-  get: () => role.value === 'writer',
-  set: (v: boolean) => {
-    role.value = v ? 'writer' : 'reader'
-  }
-})
-
-watch(meData, () => {
-  me.value = meData.value
-})
+import AppHeader from '@/components/AppHeader.vue'
 </script>
 
 <template>
   <div :class="$style.container">
-    <header :class="$style.header">
-      <el-switch v-model="roleCalc" />
-      {{ role }}
-    </header>
+    <app-header />
     <main :class="$style.pageContainer">
       <RouterView />
     </main>
@@ -39,10 +16,7 @@ watch(meData, () => {
 .container {
   background-color: #fffbda;
   height: 100vh;
-}
-.header {
-  height: 64px;
-  background-color: #d9d9d9;
+  color: #333333;
 }
 .pageContainer {
   border-radius: 60px 60px 0 0;
