@@ -101,7 +101,7 @@ const avatarColor = randomColor()
       ref="scroll"
     >
       <div :class="$style.imgContainer">
-        <img :src="document.file" :class="$style.img" ref="img" />
+        <img :src="document.file" :class="$style.img" ref="img" :width="document.width" :height="document.height" />
         <div :is-Show="scrollHeight === 0" :class="$style.imgOverlay" @click="scrollToDiscription">
           <ElIcon size="100px"><ArrowDown /></ElIcon>
         </div>

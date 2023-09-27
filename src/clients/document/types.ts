@@ -10,6 +10,8 @@ export interface Document {
   userName: string
   related_request: string | null
   referenced_users?: string[]
+  file_height: number
+  file_width: number
 }
 
 export interface DocumentDetail extends Document {

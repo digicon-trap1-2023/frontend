@@ -10,7 +10,9 @@ const documentData: Document = {
   referenced: false,
   userId: '1',
   userName: 'digi-con食べ食べ委員会',
-  related_request: null
+  related_request: null,
+  file_height: 100,
+  file_width: 100
 }
 
 const table1 = [100, 600, 350, 200, 800, 450, 1050, 400]
@@ -25,7 +27,9 @@ const documentsData: Document[] = Array(40)
     referenced: 1 % 5 === 0,
     userId: `${i}`,
     userName: `digi-con食べ食べ委員会 v${i}`,
-    related_request: null
+    related_request: null,
+    file_height: 100,
+    file_width: 100
   }))
 
 const documentDetailData: DocumentDetail = {
