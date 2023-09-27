@@ -8,8 +8,8 @@ const documentData: Document = {
     'example document aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
   bookmarked: false,
   referenced: false,
-  userId: '1',
-  userName: 'digi-con食べ食べ委員会',
+  user_id: '1',
+  user_name: 'digi-con食べ食べ委員会',
   related_request: null
 }
 
@@ -23,8 +23,8 @@ const documentsData: Document[] = Array(40)
     title: `${table1[i % 8]}x${table2[i % 5]}`,
     bookmarked: i % 7 === 0,
     referenced: 1 % 5 === 0,
-    userId: `${i}`,
-    userName: `digi-con食べ食べ委員会 v${i}`,
+    user_id: `${i}`,
+    user_name: `digi-con食べ食べ委員会 v${i}`,
     related_request: null
   }))
 
