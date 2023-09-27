@@ -10,7 +10,7 @@ import type {
 import { getApiOrigin } from '@/lib/env'
 import { useMeStore } from '@/stores/me'
 import { storeToRefs } from 'pinia'
-import { type Ref, ref } from 'vue'
+import { type Ref } from 'vue'
 
 export const useFetchDocuments = (query: Ref<DocumentQuerySeed>) => {
   const meStore = useMeStore()
@@ -41,29 +41,6 @@ const getDocumentsUrlWithQuery = (query: DocumentQuerySeed) => {
     searchParams.set('type', 'referenced')
   }
   return searchParams.toString()
-}
-
-export const useFetchDocumentsByReader = (query: Ref<DocumentQuerySeed>) => {
-  const searchParams = ref(new URLSearchParams())
-  const meStore = useMeStore()
-  const { role } = storeToRefs(meStore)
-
-  const res = useSWRV<Document[]>(
-    () => [`${getApiOrigin()}/reader/documents`, query.value.tags, query.value.onlyBookmark],
-    (origin, tags, type) => {
-      if (tags && tags.length > 0) {
-        searchParams.value.set('tags', tags.join(','))
-      } else {
-        searchParams.value.delete('tags')
-      }
-      if (type) {
-        searchParams.value.set('type', type)
-      }
-      return fetcher.getWithQuery(origin, searchParams.value, role.value)
-    }
-  )
-  if (res.error.value) throw new Error(res.error.value.message)
-  return res
 }
 
 export const useFetchDocumentDetail = (documentId: string) => {
