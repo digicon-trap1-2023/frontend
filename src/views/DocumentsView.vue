@@ -82,7 +82,7 @@ const handleChangeReferenced = (documentId: string, val: boolean) => {
     <div
       v-if="documents"
       :class="$style.documentList"
-      :key="JSON.stringify(documents)"
+      :key="JSON.stringify(documents.map((v) => v.id))"
       v-masonry="1"
       transition-duration="0.3s"
       item-selector=".item"
