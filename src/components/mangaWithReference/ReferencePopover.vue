@@ -35,8 +35,8 @@ const emits = defineEmits<{
           @click="emits('click', document.id)"
           shadow="hover"
         >
-          <ElImage :src="document.file" :alt="document.title" :class="$style.image" fit="cover" />
-          <ElText size="large">{{ document.title }}</ElText>
+          <ElImage :src="document.file" :alt="document.title" :class="$style.image" fit="contain" />
+          <ElText :class="$style.text" truncated>{{ document.title }}</ElText>
         </ElCard>
       </div>
     </el-popover>
@@ -67,5 +67,9 @@ const emits = defineEmits<{
 .image {
   height: 200px;
   width: 300px;
+}
+span.text {
+  font-size: 1.5rem;
+  padding-block: 6px;
 }
 </style>

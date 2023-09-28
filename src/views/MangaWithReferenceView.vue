@@ -40,26 +40,26 @@ const handleSelectCurrentDocument = (id: string) => {
   display: flex;
   flex-wrap: wrap;
   margin: auto;
+  justify-content: center;
 }
 
 .imageContainer {
-  width: fit-content;
   position: relative;
 }
 .image {
   width: 400px;
 }
 .popover1 {
-  top: 12px;
-  left: 200px;
+  top: -2px;
+  left: 230px;
 }
 .popover2 {
   top: 140px;
   left: 30px;
 }
 .popover3 {
-  top: 280px;
-  left: 120px;
+  top: 320px;
+  left: 40px;
 }
 .infoButton {
   cursor: zoom-in;
