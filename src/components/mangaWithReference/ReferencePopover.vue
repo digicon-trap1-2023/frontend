@@ -4,9 +4,9 @@ import { ZoomIn } from '@element-plus/icons-vue'
 
 const documents: { id: string; title: string; file: string }[] = [
   {
-    id: '00000000-0000-0000-0002-000000000002',
-    title: 'title2',
-    file: 'https://digicon-trap1-public.s3.amazonaws.com/image/1.png'
+    id: 'b1b1325d-647f-4e13-94fe-ab422885dbe0',
+    title: 'メディアドゥのオフィス',
+    file: 'https://digicon-trap1-public.s3.amazonaws.com/image/b9c73652-aa15-48ca-bcdc-ced00f58fcd5.jpeg'
   },
   {
     id: 'ef4da557-8e62-4187-bfcc-13d324bc6f6f',
