@@ -99,7 +99,7 @@ const handleChangeReferenced = (documentId: string, val: boolean) => {
             :id="item.id"
             :width="item.file_width"
             :height="item.file_height"
-            @change-bookmark="handleChangeBookmark($event)"
+            @change-bookmark="(id, val) => handleChangeBookmark(id, val)"
           />
         </button>
       </div>

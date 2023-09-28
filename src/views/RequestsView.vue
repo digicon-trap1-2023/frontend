@@ -6,7 +6,7 @@ import RequestList from '@/components/request/RequestList.vue'
 import { useMeStore } from '@/stores/me'
 import { useRequestStore } from '@/stores/request'
 import { storeToRefs } from 'pinia'
-import { Request } from '@/clients/request/types'
+import type { Request } from '@/clients/request/types'
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
