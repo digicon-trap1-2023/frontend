@@ -4,14 +4,14 @@ import { ZoomIn } from '@element-plus/icons-vue'
 
 const documents: { id: string; title: string; file: string }[] = [
   {
-    id: '1',
+    id: '00000000-0000-0000-0002-000000000002',
     title: 'example title1',
-    file: 'https://placehold.jp/100x200.png'
+    file: 'https://digicon-trap1-public.s3.amazonaws.com/image/adf50b88-6655-40fa-bfed-0c71aaceb8c2.png'
   },
   {
-    id: '2',
+    id: 'ef4da557-8e62-4187-bfcc-13d324bc6f6f',
     title: 'example title2',
-    file: 'https://placehold.jp/200x100.png'
+    file: 'https://digicon-trap1-public.s3.amazonaws.com/image/c8947b07-0272-4db4-9c3a-8b181c1e4667.jpeg'
   }
 ]
 
