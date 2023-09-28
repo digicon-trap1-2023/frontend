@@ -54,7 +54,12 @@ watch(meData, () => {
         <router-link to="/me" :class="$style.routerLink" :data-is-here="route.path === '/me'">
           <el-button type="primary" link>マイページ</el-button>
         </router-link>
-        <router-link to="/book" :class="$style.routerLink" :data-is-here="route.path === '/book'">
+        <router-link
+          to="/book"
+          :class="$style.routerLink"
+          :data-is-here="route.path === '/book'"
+          v-if="role === 'writer'"
+        >
           <el-button type="primary" link>参考にした資料(ビューワー)</el-button>
         </router-link>
       </nav>
