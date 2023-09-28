@@ -13,7 +13,7 @@ const { role } = storeToRefs(meStore)
 const requestStore = useRequestStore()
 const { requests: requestsInStore } = storeToRefs(requestStore)
 
-const requests = useFetchRequests()
+const { data: requests, mutate } = useFetchRequests()
 
 const description = computed(() =>
   role.value === 'writer'
@@ -24,10 +24,12 @@ const description = computed(() =>
 const handleCreateRequest = (request: Request) => {
   requests.value?.unshift(request)
   requestsInStore.value.unshift(request)
+  mutate()
 }
 const handleDeleteRequest = (requestId: string) => {
   requests.value = requests.value?.filter((request) => request.id !== requestId)
   requestsInStore.value = requestsInStore.value.filter((request) => request.id !== requestId)
+  mutate()
 }
 
 watch(

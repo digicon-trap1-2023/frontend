@@ -6,10 +6,10 @@ import { getApiOrigin } from '@/lib/env'
 import type { RequestCreateSeed } from '@/clients/request/types'
 
 export const useFetchRequests = () => {
-  const { data, error } = useSWRV<Request[]>(`${getApiOrigin()}/requests`, fetcher.get)
+  const { data, error, mutate } = useSWRV<Request[]>(`${getApiOrigin()}/requests`, fetcher.get)
   if (error.value) throw new Error(error.value.message)
 
-  return data
+  return { data, mutate }
 }
 export const useFetchRequestsWithDocuments = () => {
   const { data, error } = useSWRV<RequestWithDocuments[]>(
