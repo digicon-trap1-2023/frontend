@@ -29,26 +29,28 @@ const handleSelectCurrentDocument = (id: string) => {
 }
 
 const handleChangeBookmark = (documentId: string, val: boolean) => {
-  documents.value = documents.value.map((document) => {
-    if (document.id === documentId) {
-      return {
-        ...document,
-        bookmarked: val
+  documents.value =
+    documents.value?.map((document) => {
+      if (document.id === documentId) {
+        return {
+          ...document,
+          bookmarked: val
+        }
       }
-    }
-    return document
-  })
+      return document
+    }) ?? []
 }
 const handleChangeReferenced = (documentId: string, val: boolean) => {
-  documents.value = documents.value.map((document) => {
-    if (document.id === documentId) {
-      return {
-        ...document,
-        referenced: val
+  documents.value =
+    documents.value?.map((document) => {
+      if (document.id === documentId) {
+        return {
+          ...document,
+          referenced: val
+        }
       }
-    }
-    return document
-  })
+      return document
+    }) ?? []
 }
 </script>
 
@@ -108,8 +110,8 @@ const handleChangeReferenced = (documentId: string, val: boolean) => {
       v-model="isModalOpen"
       :document-id="currentModalDocumentId"
       @mutate="mutate(undefined)"
-      @change-bookmark="handleChangeBookmark($event)"
-      @change-referenced="handleChangeReferenced($event)"
+      @change-bookmark="(id, val) => handleChangeBookmark(id, val)"
+      @change-referenced="(id, val) => handleChangeReferenced(id, val)"
     />
   </div>
 </template>

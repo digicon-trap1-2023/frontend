@@ -6,6 +6,7 @@ import RequestList from '@/components/request/RequestList.vue'
 import { useMeStore } from '@/stores/me'
 import { useRequestStore } from '@/stores/request'
 import { storeToRefs } from 'pinia'
+import { Request } from '@/clients/request/types'
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
@@ -21,11 +22,11 @@ const description = computed(() =>
 )
 
 const handleCreateRequest = (request: Request) => {
-  requests.value.unshift(request)
+  requests.value?.unshift(request)
   requestsInStore.value.unshift(request)
 }
 const handleDeleteRequest = (requestId: string) => {
-  requests.value = requests.value.filter((request) => request.id !== requestId)
+  requests.value = requests.value?.filter((request) => request.id !== requestId)
   requestsInStore.value = requestsInStore.value.filter((request) => request.id !== requestId)
 }
 
