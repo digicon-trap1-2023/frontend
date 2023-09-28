@@ -1,4 +1,4 @@
-import useSWRV from 'swrv'
+import useSWRV, { mutate } from 'swrv'
 import { fetcher } from '@/clients/fetcher'
 import type {
   DocumentDetail,
@@ -90,25 +90,32 @@ export const updateDocument = async (documentId: string, document: DocumentUpdat
     formData
   )
 
+  mutate(`${getApiOrigin()}/documents/${documentId}`, undefined)
+
   return res
 }
 
 export const deleteDocument = async (documentId: string) => {
   await fetcher.delete(`${getApiOrigin()}/documents/${documentId}`)
+  mutate(`${getApiOrigin()}/documents/${documentId}`, undefined)
 }
 
 export const postBookmark = async (documentId: string) => {
   await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/bookmarks`)
+  mutate(`${getApiOrigin()}/documents/${documentId}`, undefined)
 }
 
 export const deleteBookmark = async (documentId: string) => {
   await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/bookmarks`)
+  mutate(`${getApiOrigin()}/documents/${documentId}`, undefined)
 }
 
 export const postReferenced = async (documentId: string) => {
   await fetcher.postWithoutData(`${getApiOrigin()}/documents/${documentId}/reference`)
+  mutate(`${getApiOrigin()}/documents/${documentId}`, undefined)
 }
 
 export const deleteReferenced = async (documentId: string) => {
   await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/reference`)
+  mutate(`${getApiOrigin()}/documents/${documentId}`, undefined)
 }
