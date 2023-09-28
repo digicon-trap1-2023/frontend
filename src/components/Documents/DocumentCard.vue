@@ -4,6 +4,11 @@ import { Star, StarFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { deleteBookmark, postBookmark } from '@/clients/document/apis'
 import { randomColor } from '@/lib/random'
+import { useMeStore } from '@/stores/me'
+import { storeToRefs } from 'pinia'
+
+const meStore = useMeStore()
+const { role } = storeToRefs(meStore)
 
 const props = defineProps<{
   imgSrc: string
@@ -63,6 +68,7 @@ const avatarColor = randomColor()
       @click.stop="toggleBookmark"
       :is-stard="isBookmarked"
       :is-hoverd="isHoverd"
+      v-if="role === 'writer'"
     >
       <template #icon>
         <ElIcon :size="30">
