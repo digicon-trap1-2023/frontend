@@ -2,6 +2,11 @@
 import ReferencePopover from '@/components/mangaWithReference/ReferencePopover.vue'
 import { ref } from 'vue'
 import DocumentModal from '@/components/modal/DocumentModal.vue'
+import { useMeStore } from '@/stores/me'
+import { storeToRefs } from 'pinia'
+
+const meStore = useMeStore()
+const { role } = storeToRefs(meStore)
 
 const isModalOpen = ref(false)
 const currentModalDocumentId = ref<string>()
@@ -13,7 +18,8 @@ const handleSelectCurrentDocument = (id: string) => {
 </script>
 
 <template>
-  <div>
+  <div v-if="role === 'reader'">権限がありません。</div>
+  <div v-else>
     <h1>おかえり、初恋。</h1>
     <div :class="$style.images">
       <div :class="$style.imageContainer">
