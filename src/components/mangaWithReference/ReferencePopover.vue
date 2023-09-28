@@ -6,7 +6,7 @@ const documents: { id: string; title: string; file: string }[] = [
   {
     id: '00000000-0000-0000-0002-000000000002',
     title: 'example title1',
-    file: 'https://digicon-trap1-public.s3.amazonaws.com/image/adf50b88-6655-40fa-bfed-0c71aaceb8c2.png'
+    file: 'https://digicon-trap1-public.s3.amazonaws.com/image/1.png'
   },
   {
     id: 'ef4da557-8e62-4187-bfcc-13d324bc6f6f',
