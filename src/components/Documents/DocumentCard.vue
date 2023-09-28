@@ -15,6 +15,10 @@ const props = defineProps<{
   height: number
 }>()
 
+const emit = defineEmits<{
+  (e: 'changeBookmark', documentId: string, val: boolean): void
+}>()
+
 const isBookmarked = ref(props.isBookmarked)
 const isHoverd = ref(false)
 
@@ -24,8 +28,10 @@ const mouseLeave = () => (isHoverd.value = false)
 const toggleBookmark = async () => {
   if (isBookmarked.value) {
     await deleteBookmark(props.id)
+    emit('changeBookmark', props.id, false)
   } else {
     await postBookmark(props.id)
+    emit('changeBookmark', props.id, true)
   }
   isBookmarked.value = !isBookmarked.value
 }
