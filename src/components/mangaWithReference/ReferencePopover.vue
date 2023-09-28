@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElPopover, ElButton, ElCard, ElImage, ElText } from 'element-plus'
+import { ElPopover, ElButton, ElCard, ElImage, ElText, ElScrollbar } from 'element-plus'
 import { ZoomIn } from '@element-plus/icons-vue'
 
 const documents: { id: string; title: string; file: string }[] = [
@@ -27,23 +27,24 @@ const emits = defineEmits<{
 
 <template>
   <div :class="$style.popover">
-    <el-popover :width="642" trigger="hover" placement="top-start">
+    <el-popover :width="642" trigger="hover" placement="top-start" :style="{}">
       <template #reference>
         <el-button type="info" :icon="ZoomIn" circle :class="$style.infoButton" />
       </template>
 
-      <div :class="$style.cardContainer">
+      <ElScrollbar :view-class="$style.cardContainer" :wrap-style="{ width: '100%' }">
         <ElCard
           v-for="document in documents"
           :key="document.id"
           :body-class="$style.card"
           @click="emits('click', document.id)"
           shadow="hover"
+          :style="{ width: 'fit-content' }"
         >
           <ElImage :src="document.file" :alt="document.title" :class="$style.image" fit="contain" />
           <ElText :class="$style.text" truncated>{{ document.title }}</ElText>
         </ElCard>
-      </div>
+      </ElScrollbar>
     </el-popover>
   </div>
 </template>
@@ -60,6 +61,8 @@ const emits = defineEmits<{
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  height: 350px;
+  width: 100%;
 }
 
 .card {
@@ -67,6 +70,7 @@ const emits = defineEmits<{
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  width: fit-content;
 }
 
 .image {
