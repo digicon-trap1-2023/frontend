@@ -24,7 +24,10 @@ const requests = useFetchRequestsWithDocuments()
       />
     </el-tab-pane>
     <el-tab-pane label="参考にした資料" name="referenced">
-      <refereced-list :documents="documents" v-if="documents !== undefined" />
+      <refereced-list
+        :documents="documents.filter((document) => document.referenced)"
+        v-if="documents !== undefined"
+      />
     </el-tab-pane>
   </el-tabs>
 </template>

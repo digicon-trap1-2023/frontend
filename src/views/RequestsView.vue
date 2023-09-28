@@ -10,7 +10,7 @@ import { storeToRefs } from 'pinia'
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
 const requestStore = useRequestStore()
-const { requests: requests2 } = storeToRefs(requestStore)
+const { requests: requestsInStore } = storeToRefs(requestStore)
 
 const requests = useFetchRequests()
 
@@ -20,11 +20,20 @@ const description = computed(() =>
     : 'ここでは作家の要望の確認と、それに沿った資料を投稿することができます。'
 )
 
+const handleCreateRequest = (request: Request) => {
+  requests.value.unshift(request)
+  requestsInStore.value.unshift(request)
+}
+const handleDeleteRequest = (requestId: string) => {
+  requests.value = requests.value.filter((request) => request.id !== requestId)
+  requestsInStore.value = requestsInStore.value.filter((request) => request.id !== requestId)
+}
+
 watch(
   () => requests.value !== undefined,
   () => {
     if (requests.value !== undefined) {
-      requests2.value = requests.value
+      requestsInStore.value = requests.value
     }
   }
 )
@@ -34,8 +43,17 @@ watch(
   <div>
     <h1>資料要望</h1>
     <p :class="$style.description">{{ description }}</p>
-    <request-form :class="$style.requestForm" v-if="role === 'writer'" />
-    <request-list :class="$style.requestList" :requests="requests" v-if="requests !== undefined" />
+    <request-form
+      :class="$style.requestForm"
+      v-if="role === 'writer'"
+      @submit="handleCreateRequest($event)"
+    />
+    <request-list
+      :class="$style.requestList"
+      :requests="requests"
+      v-if="requests !== undefined"
+      @delete="handleDeleteRequest($event)"
+    />
   </div>
 </template>
 

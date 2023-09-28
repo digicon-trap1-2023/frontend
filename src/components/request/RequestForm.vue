@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElButton, ElSelect, ElOption } from 'element-plus'
-import type { RequestCreateSeed } from '@/clients/request/types'
+import type { RequestCreateSeed, Request } from '@/clients/request/types'
 import { createRequest } from '@/clients/request/apis'
 import { useFetchTags } from '@/clients/tag/apis'
 import { createTags } from '@/clients/tag/apis'
@@ -13,6 +13,10 @@ const form = ref<RequestCreateSeed>({
   description: '',
   tags: []
 })
+
+const emit = defineEmits<{
+  (e: 'submit', val: Request): void
+}>()
 
 const handleSubmit = async () => {
   if (!form.value.description || !form.value.title || !tags.value) return
@@ -26,11 +30,12 @@ const handleSubmit = async () => {
     description: form.value.description,
     tags: existingTags
   }
-  await createRequest(requestCreateSeed)
+  const res = await createRequest(requestCreateSeed)
 
   form.value.title = ''
   form.value.description = ''
   tags.value = []
+  emit('submit', res)
 }
 </script>
 

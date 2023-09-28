@@ -27,6 +27,29 @@ const handleSelectCurrentDocument = (id: string) => {
   currentModalDocumentId.value = id
   isModalOpen.value = true
 }
+
+const handleChangeBookmark = (documentId: string, val: boolean) => {
+  documents.value = documents.value.map((document) => {
+    if (document.id === documentId) {
+      return {
+        ...document,
+        bookmarked: val
+      }
+    }
+    return document
+  })
+}
+const handleChangeReferenced = (documentId: string, val: boolean) => {
+  documents.value = documents.value.map((document) => {
+    if (document.id === documentId) {
+      return {
+        ...document,
+        referenced: val
+      }
+    }
+    return document
+  })
+}
 </script>
 
 <template>
@@ -74,6 +97,7 @@ const handleSelectCurrentDocument = (id: string) => {
             :id="item.id"
             :width="item.file_width"
             :height="item.file_height"
+            @change-bookmark="handleChangeBookmark($event)"
           />
         </button>
       </div>
@@ -84,6 +108,8 @@ const handleSelectCurrentDocument = (id: string) => {
       v-model="isModalOpen"
       :document-id="currentModalDocumentId"
       @mutate="mutate(undefined)"
+      @change-bookmark="handleChangeBookmark($event)"
+      @change-referenced="handleChangeReferenced($event)"
     />
   </div>
 </template>
