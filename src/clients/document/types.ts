@@ -9,7 +9,7 @@ export interface Document {
   user_id: string
   user_name: string
   related_request: string | null
-  referenced_users?: string[]
+  reference_users?: string[]
   file_height: number
   file_width: number
 }

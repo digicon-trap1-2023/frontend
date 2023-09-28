@@ -28,7 +28,7 @@ const handleSelectCurrentDocument = (id: string) => {
 const tableData = computed(() =>
   props.documents.map((document) => ({
     document: document,
-    writers: document.referenced_users
+    writers: document.reference_users
   }))
 )
 
@@ -56,6 +56,7 @@ const avatarColor = randomColor()
             v-for="writer in row.writers"
             :key="writer"
             :style="{ backgroundColor: avatarColor }"
+            :title="writer"
           >
             <span :class="$style.avatarName">{{ writer.slice(0, 1) }}</span>
           </el-avatar>

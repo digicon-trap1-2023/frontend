@@ -13,7 +13,7 @@ interface Props {
 
 defineProps<Props>()
 
-const emit= defineEmits<{
+const emit = defineEmits<{
   (e: 'delete', requestId: string): void
 }>()
 
@@ -31,7 +31,7 @@ const avatarColor = randomColor()
 <template>
   <ul :class="$style.list">
     <li v-for="request in requests" :key="request.id" :class="$style.listItem">
-      <el-avatar size="large" :style="{ backgroundColor: avatarColor }">
+      <el-avatar size="large" :style="{ backgroundColor: avatarColor }" :title="request.created_by">
         <span :class="$style.avatarName">{{ request.created_by.slice(0, 1) }}</span>
       </el-avatar>
       <div :class="$style.cardContainer">

@@ -143,7 +143,11 @@ watch(
         <div :class="$style.title">
           <div>
             <ElSpace>
-              <ElAvatar :class="$style.avatar" :style="{ backgroundColor: avatarColor }">
+              <ElAvatar
+                :class="$style.avatar"
+                :style="{ backgroundColor: avatarColor }"
+                :title="document.user_name"
+              >
                 <span :class="$style.avatarName">
                   {{ document.user_name.slice(0, 1) }}
                 </span>

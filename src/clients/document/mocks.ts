@@ -78,7 +78,7 @@ export const documentHandlers = (apiOrigin: string): RestHandler[] => [
             .filter((v) => list.some((w) => w === v.id.slice(-1)))
             .map((document, index) => ({
               ...document,
-              referenced_users: index % 2 === 0 ? ['user1'] : []
+              reference_users: index % 2 === 0 ? ['user1'] : []
             }))
         )
       )
@@ -89,7 +89,7 @@ export const documentHandlers = (apiOrigin: string): RestHandler[] => [
       ctx.json<Document[]>(
         documentsData.map((document, index) => ({
           ...document,
-          referenced_users: index % 2 === 0 ? ['user1'] : []
+          reference_users: index % 2 === 0 ? ['user1'] : []
         }))
       )
     )

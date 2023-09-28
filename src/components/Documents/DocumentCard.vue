@@ -48,7 +48,7 @@ const avatarColor = randomColor()
   <el-card :body-class="$style.card" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
     <img :src="props.imgSrc" :class="$style.image" />
     <div :class="$style.description" :is-hoverd="isHoverd">
-      <ElAvatar :style="{ backgroundColor: avatarColor }">
+      <ElAvatar :style="{ backgroundColor: avatarColor }" :title="username">
         <span :class="$style.avatarName">
           {{ username.slice(0, 1) }}
         </span>
