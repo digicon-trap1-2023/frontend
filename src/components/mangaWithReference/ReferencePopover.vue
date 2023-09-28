@@ -5,13 +5,18 @@ import { ZoomIn } from '@element-plus/icons-vue'
 const documents: { id: string; title: string; file: string }[] = [
   {
     id: '00000000-0000-0000-0002-000000000002',
-    title: 'example title1',
+    title: 'title2',
     file: 'https://digicon-trap1-public.s3.amazonaws.com/image/1.png'
   },
   {
     id: 'ef4da557-8e62-4187-bfcc-13d324bc6f6f',
-    title: 'example title2',
+    title: 'チーズケーキ',
     file: 'https://digicon-trap1-public.s3.amazonaws.com/image/c8947b07-0272-4db4-9c3a-8b181c1e4667.jpeg'
+  },
+  {
+    id: 'f3216b5d-2b88-4657-888a-0c54bf4ce292',
+    title: 'pikachu',
+    file: 'https://digicon-trap1-public.s3.amazonaws.com/image/b029fcc8-741d-4277-858e-1738d01b5a21.png'
   }
 ]
 
