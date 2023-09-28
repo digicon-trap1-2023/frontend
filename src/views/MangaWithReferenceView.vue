@@ -1,23 +1,49 @@
 <script setup lang="ts">
 import ReferencePopover from '@/components/mangaWithReference/ReferencePopover.vue'
+import { ref } from 'vue'
+import DocumentModal from '@/components/modal/DocumentModal.vue'
+
+const isModalOpen = ref(false)
+const currentModalDocumentId = ref<string>()
+
+const handleSelectCurrentDocument = (id: string) => {
+  currentModalDocumentId.value = id
+  isModalOpen.value = true
+}
 </script>
 
 <template>
   <div>
     <h1>おかえり、初恋。</h1>
     <div :class="$style.images">
-      <img src="@/assets/left.jpg" alt="left page" width="400px" :class="$style.image" />
-      <img src="@/assets/right.jpg" alt="right page" witdh="400px" :class="$style.image" />
-      <reference-popover :class="$style.popover1" />
-      <reference-popover :class="$style.popover2" />
-      <reference-popover :class="$style.popover3" />
+      <div :class="$style.imageContainer">
+        <img src="@/assets/left.jpg" alt="left page" width="400px" :class="$style.image" />
+        <reference-popover :class="$style.popover1" @click="handleSelectCurrentDocument" />
+        <reference-popover :class="$style.popover2" @click="handleSelectCurrentDocument" />
+      </div>
+      <div :class="$style.imageContainer">
+        <img src="@/assets/right.jpg" alt="right page" witdh="400px" :class="$style.image" />
+        <reference-popover :class="$style.popover3" @click="handleSelectCurrentDocument" />
+      </div>
     </div>
+    <document-modal
+      @closed="() => (currentModalDocumentId = undefined)"
+      v-if="isModalOpen && currentModalDocumentId"
+      v-model="isModalOpen"
+      :document-id="currentModalDocumentId"
+    />
   </div>
 </template>
 
 <style module>
 .images {
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+}
+
+.imageContainer {
+  width: fit-content;
   position: relative;
 }
 .image {
@@ -25,15 +51,15 @@ import ReferencePopover from '@/components/mangaWithReference/ReferencePopover.v
 }
 .popover1 {
   top: 12px;
-  left: 600px;
+  left: 200px;
 }
 .popover2 {
   top: 140px;
-  left: 980px;
+  left: 30px;
 }
 .popover3 {
   top: 280px;
-  left: 660px;
+  left: 120px;
 }
 .infoButton {
   cursor: zoom-in;
