@@ -22,7 +22,7 @@ const documentsData: Document[] = Array(40)
   .map((_, i) => ({
     id: `${i}`,
     file: `https://placehold.jp/${table1[i % 8]}x${table2[i % 5]}.png`,
-    title: `${table1[i % 8]}x${table2[i % 5]}`,
+    title: `${table1[i % 8]}x${table2[i % 5]}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`,
     bookmarked: i % 7 === 0,
     referenced: 1 % 5 === 0,
     user_id: `${i}`,
