@@ -27,6 +27,10 @@ const props = defineProps<{
   documentId: string
 }>()
 
+const emits = defineEmits<{
+  (e: 'mutate'): void
+}>()
+
 const document = useFetchDocumentDetail(props.documentId)
 
 const meStore = useMeStore()
@@ -63,6 +67,7 @@ const toggleBookmark = async () => {
     await postBookmark(props.documentId)
   }
   isBookmarked.value = !isBookmarked.value
+  emits('mutate')
 }
 
 const toggleReferenced = async () => {
@@ -72,6 +77,7 @@ const toggleReferenced = async () => {
     await postReferenced(props.documentId)
   }
   isReferenced.value = !isReferenced.value
+  emits('mutate')
 }
 const scrollToDiscription = async () => {
   if (scrollHeight.value === 0 && scroll.value && img.value) {

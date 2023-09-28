@@ -14,7 +14,7 @@ const initialDocumentId = computed(() => parseQueryParam(route.query.documentId)
 
 const tags = ref<string[]>()
 const onlyBookmark = ref(false)
-const { data: documents } = useFetchDocuments(
+const { data: documents, mutate } = useFetchDocuments(
   toRef({
     tags,
     onlyBookmark
@@ -83,6 +83,7 @@ const handleSelectCurrentDocument = (id: string) => {
       v-if="isModalOpen && currentModalDocumentId"
       v-model="isModalOpen"
       :document-id="currentModalDocumentId"
+      @mutate="mutate(undefined)"
     />
   </div>
 </template>

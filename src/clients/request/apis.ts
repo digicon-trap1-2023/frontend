@@ -1,4 +1,4 @@
-import useSWRV from 'swrv'
+import useSWRV, { mutate } from 'swrv'
 import { fetcher } from '@/clients/fetcher'
 
 import type { Request, RequestWithDocuments } from '@/clients/request/types'
@@ -23,10 +23,13 @@ export const useFetchRequestsWithDocuments = () => {
 
 export const createRequest = async (request: RequestCreateSeed) => {
   const res = await fetcher.post<Request>(`${getApiOrigin()}/requests`, request)
-
+  mutate(`${getApiOrigin()}/requests`, undefined)
+  mutate(`${getApiOrigin()}/requests/withDocument`, undefined)
   return res
 }
 
 export const deleteRequest = async (requestId: string) => {
   await fetcher.delete(`${getApiOrigin()}/requests/${requestId}`)
+  mutate(`${getApiOrigin()}/requests`, undefined)
+  mutate(`${getApiOrigin()}/requests/withDocument`, undefined)
 }
