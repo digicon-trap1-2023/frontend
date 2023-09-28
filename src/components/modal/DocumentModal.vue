@@ -33,7 +33,7 @@ const emit = defineEmits<{
   (e: 'changeReferenced', documentId: string, val: boolean): void
 }>()
 
-const document = useFetchDocumentDetail(props.documentId)
+const { data: document, mutate } = useFetchDocumentDetail(props.documentId)
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
@@ -73,6 +73,7 @@ const toggleBookmark = async () => {
     isBookmarked.value = true
   }
   emit('mutate')
+  mutate(undefined)
 }
 
 const toggleReferenced = async () => {
@@ -85,6 +86,7 @@ const toggleReferenced = async () => {
     emit('changeReferenced', props.documentId, true)
     isReferenced.value = true
   }
+  mutate(undefined)
   emit('mutate')
 }
 const scrollToDiscription = async () => {
