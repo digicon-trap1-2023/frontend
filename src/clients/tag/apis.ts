@@ -1,4 +1,4 @@
-import useSWRV from 'swrv'
+import useSWRV, { mutate } from 'swrv'
 import { fetcher } from '@/clients/fetcher'
 import type { TagCreateSeed, Tag } from '@/clients/tag/types'
 import { getApiOrigin } from '@/lib/env'
@@ -14,7 +14,7 @@ export const createTag = async (tagName: string) => {
   const res = await fetcher.post<Tag>(`${getApiOrigin()}/tags`, {
     name: tagName
   } satisfies TagCreateSeed)
-
+  mutate(`${getApiOrigin()}/tags`, undefined)
   return res
 }
 

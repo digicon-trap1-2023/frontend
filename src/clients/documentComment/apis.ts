@@ -1,4 +1,4 @@
-import useSWRV from 'swrv'
+import useSWRV, { mutate } from 'swrv'
 import { fetcher } from '@/clients/fetcher'
 
 import { getApiOrigin } from '@/lib/env'
@@ -22,10 +22,11 @@ export const createDocumentComment = async (
     `${getApiOrigin()}/documents/${documentId}/comments`,
     request
   )
-
+  mutate(`${getApiOrigin()}/documents/${documentId}/comments`, undefined)
   return res
 }
 
 export const deleteDocumentComment = async (documentId: string, requestCommentId: string) => {
   await fetcher.delete(`${getApiOrigin()}/documents/${documentId}/comments/${requestCommentId}`)
+  mutate(`${getApiOrigin()}/documents/${documentId}/comments`, undefined)
 }
