@@ -22,10 +22,13 @@ const { role } = storeToRefs(meStore)
 const requestStore = useRequestStore()
 const { requests } = storeToRefs(requestStore)
 
+const requestId = computed(() => parseQueryParam(route.query.requestId))
+const request = computed(() => requests.value.find((r) => r.id === requestId.value))
+
 const form = ref<DocumentCreateSeed>({
   title: '',
   description: '',
-  tags: [],
+  tags: request.value?.tags ?? [],
   file: null,
   related_request: null
 })
@@ -51,9 +54,6 @@ const handleSubmit = async () => {
   await createDocument(documentCreateSeed)
   router.push('/documents')
 }
-
-const requestId = computed(() => parseQueryParam(route.query.requestId))
-const request = computed(() => requests.value.find((r) => r.id === requestId.value))
 </script>
 
 <template>

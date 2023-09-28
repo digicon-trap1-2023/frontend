@@ -13,11 +13,16 @@ interface Props {
 
 defineProps<Props>()
 
+const emit= defineEmits<{
+  (e: 'delete', requestId: string): void
+}>()
+
 const meStore = useMeStore()
 const { me, role } = storeToRefs(meStore)
 
 const handleDeleteRequest = async (requestId: string) => {
   await deleteRequest(requestId)
+  emit('delete', requestId)
 }
 
 const avatarColor = randomColor()

@@ -27,11 +27,13 @@ const props = defineProps<{
   documentId: string
 }>()
 
-const emits = defineEmits<{
+const emit = defineEmits<{
   (e: 'mutate'): void
+  (e: 'changeBookmark', documentId: string, val: boolean): void
+  (e: 'changeReferenced', documentId: string, val: boolean): void
 }>()
 
-const document = useFetchDocumentDetail(props.documentId)
+const { data: document, mutate } = useFetchDocumentDetail(props.documentId)
 
 const meStore = useMeStore()
 const { role } = storeToRefs(meStore)
@@ -63,21 +65,29 @@ watch(
 const toggleBookmark = async () => {
   if (isBookmarked.value) {
     await deleteBookmark(props.documentId)
+    emit('changeBookmark', props.documentId, false)
+    isBookmarked.value = false
   } else {
     await postBookmark(props.documentId)
+    emit('changeBookmark', props.documentId, true)
+    isBookmarked.value = true
   }
-  isBookmarked.value = !isBookmarked.value
-  emits('mutate')
+  emit('mutate')
+  mutate(undefined)
 }
 
 const toggleReferenced = async () => {
   if (isReferenced.value) {
     await deleteReferenced(props.documentId)
+    emit('changeReferenced', props.documentId, false)
+    isReferenced.value = false
   } else {
     await postReferenced(props.documentId)
+    emit('changeReferenced', props.documentId, true)
+    isReferenced.value = true
   }
-  isReferenced.value = !isReferenced.value
-  emits('mutate')
+  mutate(undefined)
+  emit('mutate')
 }
 const scrollToDiscription = async () => {
   if (scrollHeight.value === 0 && scroll.value && img.value) {
@@ -89,6 +99,16 @@ const scrollToDiscription = async () => {
 }
 
 const avatarColor = randomColor()
+
+watch(
+  () => document.value !== undefined,
+  () => {
+    if (document.value !== undefined) {
+      isBookmarked.value = document.value.bookmarked ?? false
+      isReferenced.value = document.value.referenced ?? false
+    }
+  }
+)
 </script>
 
 <template>

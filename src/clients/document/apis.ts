@@ -44,13 +44,10 @@ const getDocumentsUrlWithQuery = (query: DocumentQuerySeed) => {
 }
 
 export const useFetchDocumentDetail = (documentId: string) => {
-  const { data, error } = useSWRV<DocumentDetail>(
-    `${getApiOrigin()}/documents/${documentId}`,
-    fetcher.get
-  )
-  if (error.value) throw new Error(error.value.message)
+  const res = useSWRV<DocumentDetail>(`${getApiOrigin()}/documents/${documentId}`, fetcher.get)
+  if (res.error.value) throw new Error(res.error.value.message)
 
-  return data
+  return res
 }
 
 export const createDocument = async (document: DocumentCreateSeed) => {
