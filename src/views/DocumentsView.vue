@@ -8,6 +8,11 @@ import { parseQueryParam } from '@/lib/parseParam'
 import { useRoute } from 'vue-router'
 import { ElButton, ElIcon } from 'element-plus'
 import { Star, StarFilled } from '@element-plus/icons-vue'
+import { useMeStore } from '@/stores/me'
+import { storeToRefs } from 'pinia'
+
+const meStore = useMeStore()
+const { role } = storeToRefs(meStore)
 
 const route = useRoute()
 const initialDocumentId = computed(() => parseQueryParam(route.query.documentId))
@@ -59,6 +64,7 @@ const handleChangeReferenced = (documentId: string, val: boolean) => {
     <div :class="$style.tools">
       <tag-selector @change="(e) => (tags = e)" />
       <el-button
+        v-if="role === 'writer'"
         circle
         :class="$style.starButton"
         @click.stop="onlyBookmark = !onlyBookmark"
