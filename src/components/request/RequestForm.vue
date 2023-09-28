@@ -30,7 +30,7 @@ const handleSubmit = async () => {
 
   form.value.title = ''
   form.value.description = ''
-  tags.value = []
+  form.value.tags = []
 }
 </script>
 
@@ -53,6 +53,7 @@ const handleSubmit = async () => {
       <el-select
         multiple
         filterable
+        clearable
         allow-create
         default-first-option
         :reserve-keyword="false"
