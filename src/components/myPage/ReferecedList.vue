@@ -32,7 +32,6 @@ const tableData = computed(() =>
   }))
 )
 
-const avatarColor = randomColor()
 </script>
 
 <template>
@@ -55,7 +54,7 @@ const avatarColor = randomColor()
           <el-avatar
             v-for="writer in row.writers"
             :key="writer"
-            :style="{ backgroundColor: avatarColor }"
+            :style="{ backgroundColor: randomColor() }"
             :title="writer"
           >
             <span :class="$style.avatarName">{{ writer.slice(0, 1) }}</span>

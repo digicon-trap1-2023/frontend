@@ -24,14 +24,12 @@ const handleDeleteRequest = async (requestId: string) => {
   await deleteRequest(requestId)
   emit('delete', requestId)
 }
-
-const avatarColor = randomColor()
 </script>
 
 <template>
   <ul :class="$style.list">
     <li v-for="request in requests" :key="request.id" :class="$style.listItem">
-      <el-avatar size="large" :style="{ backgroundColor: avatarColor }" :title="request.created_by">
+      <el-avatar size="large" :style="{ backgroundColor: randomColor() }" :title="request.created_by">
         <span :class="$style.avatarName">{{ request.created_by.slice(0, 1) }}</span>
       </el-avatar>
       <div :class="$style.cardContainer">
